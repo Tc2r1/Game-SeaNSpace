@@ -1,4 +1,4 @@
-package com.dragonjam.aliens;
+package com.dragonjam.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
