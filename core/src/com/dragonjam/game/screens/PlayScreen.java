@@ -78,6 +78,8 @@ public class PlayScreen implements Screen {
 		
 		player.update(delta);
 		
+		//System.out.println(InputHandler.lastClick);
+		
 	}
 	
 	@Override
@@ -103,14 +105,25 @@ public class PlayScreen implements Screen {
 		
 		// Draw player-controlled creatures
 		// Attacker
+//		stage.getBatch().draw(player.getAttackerTexture(), 
+//				(Constants.W_WIDTH / 2) - (player.getAttackerTexture().getRegionWidth() * cam.zoom / 3 / 2) + player.getAttacker().getLocation().x, 
+//				(Constants.W_HEIGHT / 2) - (player.getAttackerTexture().getRegionWidth() * cam.zoom / 2.5f / 2) - (Constants.W_HEIGHT * 0.05f), 
+//				player.getAttackerTexture().getRegionWidth() * cam.zoom / 3, player.getAttackerTexture().getRegionHeight() * cam.zoom / 2.5f);
+//		// Fisher
+//		stage.getBatch().draw(player.getFisherTexture(), 
+//				(Constants.W_WIDTH / 2) - (player.getFisherTexture().getRegionWidth() * cam.zoom / 3 / 2), 
+//				(Constants.W_HEIGHT / 2) - (player.getFisherTexture().getRegionHeight() * cam.zoom / 2.5f / 2) - (Constants.W_HEIGHT * 0.08f), 
+//				player.getAttackerTexture().getRegionWidth() * cam.zoom / 3, player.getAttackerTexture().getRegionHeight() * cam.zoom / 2.5f);
+		// Draw the player components
 		stage.getBatch().draw(player.getAttackerTexture(), 
-				(Constants.W_WIDTH / 2) - (player.getAttackerTexture().getRegionWidth() / 2) + player.getAttacker().getLocation().x, 
-				(Constants.W_HEIGHT / 2) - (player.getAttackerTexture().getRegionWidth() / 2), 100 * cam.zoom, 200 * cam.zoom);
+				(Constants.W_WIDTH / 2) - (100 / 2) + player.getAttacker().getLocation().x, 
+				(Constants.W_HEIGHT / 2) - (200 / 2) - (Constants.W_HEIGHT * 0.05f), 
+				100, 200);
 		// Fisher
 		stage.getBatch().draw(player.getFisherTexture(), 
-				(Constants.W_WIDTH / 2) - (player.getFisherTexture().getRegionWidth() / 2), 
-				(Constants.W_HEIGHT / 2) - (player.getFisherTexture().getRegionHeight() / 2), 
-				100 * cam.zoom, 200 * cam.zoom);
+				(Constants.W_WIDTH / 2) - (100 / 2), 
+				(Constants.W_HEIGHT / 2) - (200 / 2) - (Constants.W_HEIGHT * 0.08f), 
+				100, 200);
 		
 		stage.getBatch().end();
 		

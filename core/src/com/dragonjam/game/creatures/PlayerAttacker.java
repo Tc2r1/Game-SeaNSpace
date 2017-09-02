@@ -10,8 +10,8 @@ import com.dragonjam.game.utility.InputHandler;
 public class PlayerAttacker extends Creature {
 	
 	// Dimensions of the texture for this creature
-	private final int F_WIDTH = 174;
-	private final int F_HEIGHT = 288;
+	private final int F_WIDTH = 300;
+	private final int F_HEIGHT = 500;
 	// TODO: Update to the actual size of each frame
 	
 	/**
@@ -45,7 +45,7 @@ public class PlayerAttacker extends Creature {
 			// Check to see if the user clicked left of the screen
 			// and make sure it's a valid mouse button
 			location.x = -100;
-			state = 2;
+			state = 1;
 		} else if(InputHandler.button != InputHandler.ButtonType.NONE) {
 			location.x = 100;
 			state = 0;
@@ -56,48 +56,61 @@ public class PlayerAttacker extends Creature {
 	@Override
 	protected void initAnimation() {
 
-		Texture spritesheet = new Texture(Gdx.files.internal("images/spritesheets/shooter.png"));
+		Texture spritesheet = new Texture(Gdx.files.internal("images/spritesheets/attacker.png"));
 		// spriteGrid will break the sprite sheet into each
 		// individual "frame". From there, we can load the
 		// desired animation(s)
 		TextureRegion[][] spriteGrid = TextureRegion.split(spritesheet, F_WIDTH, F_HEIGHT);
-		TextureRegion[] frames = new TextureRegion[5];
+		TextureRegion[] frames = new TextureRegion[1];
 		
-		// Breathing looking right (idle right)
-		for(int f = 0; f < 5; f++) {
-			// Row 0, columns 0-5
-			frames[f] = spriteGrid[0][f];
-		}
+		// ---- For single texture ----
+		frames[0] = spriteGrid[0][0];
 		animation.add(new Animation<TextureRegion>(0.33f, frames));
 		
-		// Attacking looking right
-		frames = new TextureRegion[5];
-		// You must redefine the array, otherwise the other
-		// animations will be changed
-		for(int f = 0; f < 5; f++) {
-			frames[f] = spriteGrid[1][f];
-		}
-		animation.add(new Animation<TextureRegion>(0.33f, frames));
-		
-		// Breathing looking left (idle left)
-		// Redefine the sprite grid, otherwise the previous
-		// animations will also be flipped
+		// Redefine spriteGrid and frames, otherwise the 
+		// other textures will be messed up / flipped
 		spriteGrid = TextureRegion.split(spritesheet, F_WIDTH, F_HEIGHT);
-		frames = new TextureRegion[5];
-		for(int f = 0; f < 5; f++) {
-			frames[f] = spriteGrid[0][f];
-			// Flip the looking-right frames to look left
-			frames[f].flip(true, false);
-		}
+		frames = new TextureRegion[1];
+		frames[0] = spriteGrid[0][0];
+		frames[0].flip(true, false);
 		animation.add(new Animation<TextureRegion>(0.33f, frames));
 		
-		// Attacking looking left
-		frames = new TextureRegion[5];
-		for(int f = 0; f < 5; f++) {
-			frames[f] = spriteGrid[1][f];
-			frames[f].flip(true, false);
-		}
-		animation.add(new Animation<TextureRegion>(0.33f, frames));
+		// ---- For animations ----
+//		// Breathing looking right (idle right)
+//		for(int f = 0; f < 5; f++) {
+//			// Row 0, columns 0-5
+//			frames[f] = spriteGrid[0][f];
+//		}
+//		animation.add(new Animation<TextureRegion>(0.33f, frames));
+//		
+//		// Attacking looking right
+//		frames = new TextureRegion[5];
+//		// You must redefine the array, otherwise the other
+//		// animations will be changed
+//		for(int f = 0; f < 5; f++) {
+//			frames[f] = spriteGrid[1][f];
+//		}
+//		animation.add(new Animation<TextureRegion>(0.33f, frames));
+//		
+//		// Breathing looking left (idle left)
+//		// Redefine the sprite grid, otherwise the previous
+//		// animations will also be flipped
+//		spriteGrid = TextureRegion.split(spritesheet, F_WIDTH, F_HEIGHT);
+//		frames = new TextureRegion[5];
+//		for(int f = 0; f < 5; f++) {
+//			frames[f] = spriteGrid[0][f];
+//			// Flip the looking-right frames to look left
+//			frames[f].flip(true, false);
+//		}
+//		animation.add(new Animation<TextureRegion>(0.33f, frames));
+//		
+//		// Attacking looking left
+//		frames = new TextureRegion[5];
+//		for(int f = 0; f < 5; f++) {
+//			frames[f] = spriteGrid[1][f];
+//			frames[f].flip(true, false);
+//		}
+//		animation.add(new Animation<TextureRegion>(0.33f, frames));
 		
 	}
 	

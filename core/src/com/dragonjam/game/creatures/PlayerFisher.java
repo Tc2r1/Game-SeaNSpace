@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class PlayerFisher extends Creature {
 	
 	// Dimensions of the texture for this creature
-	private final int F_WIDTH = 172;
-	private final int F_HEIGHT = 286;
+	private final int F_WIDTH = 300;
+	private final int F_HEIGHT = 500;
 	// TODO: Update to the actual size of each frame
 	
 	/**
@@ -48,32 +48,37 @@ public class PlayerFisher extends Creature {
 		// individual "frame". From there, we can load the
 		// desired animation(s)
 		TextureRegion[][] spriteGrid = TextureRegion.split(spritesheet, F_WIDTH, F_HEIGHT);
-		TextureRegion[] frames = new TextureRegion[5];
+		TextureRegion[] frames = new TextureRegion[1];
 		
-		// Waiting for fish (idle)
-		for(int f = 0; f < 5; f++) {
-			// Row 0, columns 0-5
-			frames[f] = spriteGrid[0][f];
-		}
+		// ---- For single texture ----
+		frames[0] = spriteGrid[0][0];
 		animation.add(new Animation<TextureRegion>(0.33f, frames));
 		
-		// Casting
-		for(int f = 0; f < 5; f++) {
-			frames[f] = spriteGrid[1][f];
-		}
-		animation.add(new Animation<TextureRegion>(0.33f, frames));
-		
-		// Fish jerk left
-		for(int f = 0; f < 5; f++) {
-			frames[f] = spriteGrid[2][f];
-		}
-		animation.add(new Animation<TextureRegion>(0.33f, frames));
-		
-		// Fish jerk right
-		for(int f = 0; f < 5; f++) {
-			frames[f] = spriteGrid[3][f];
-		}
-		animation.add(new Animation<TextureRegion>(0.33f, frames));
+		// ---- For multiple animations ----
+//		// Waiting for fish (idle)
+//		for(int f = 0; f < 5; f++) {
+//			// Row 0, columns 0-5
+//			frames[f] = spriteGrid[0][f];
+//		}
+//		animation.add(new Animation<TextureRegion>(0.33f, frames));
+//		
+//		// Casting
+//		for(int f = 0; f < 5; f++) {
+//			frames[f] = spriteGrid[1][f];
+//		}
+//		animation.add(new Animation<TextureRegion>(0.33f, frames));
+//		
+//		// Fish jerk left
+//		for(int f = 0; f < 5; f++) {
+//			frames[f] = spriteGrid[2][f];
+//		}
+//		animation.add(new Animation<TextureRegion>(0.33f, frames));
+//		
+//		// Fish jerk right
+//		for(int f = 0; f < 5; f++) {
+//			frames[f] = spriteGrid[3][f];
+//		}
+//		animation.add(new Animation<TextureRegion>(0.33f, frames));
 		
 	}
 	

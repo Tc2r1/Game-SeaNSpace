@@ -10,8 +10,8 @@ import com.dragonjam.game.utility.InputHandler;
 public class Spooker extends Creature {
 	
 	// Dimensions of the texture for this creature
-	private final int F_WIDTH = 0;
-	private final int F_HEIGHT = 0;
+	private final int F_WIDTH = 300;
+	private final int F_HEIGHT = 400;
 	// TODO: Update to the actual size of each frame
 	
 	/**
@@ -61,14 +61,20 @@ public class Spooker extends Creature {
 		// individual "frame". From there, we can load the
 		// desired animation(s)
 		TextureRegion[][] spriteGrid = TextureRegion.split(spritesheet, F_WIDTH, F_HEIGHT);
-		TextureRegion[] frames = new TextureRegion[5];
+		TextureRegion[] frames = new TextureRegion[1];
 		
-		// Breathing looking right (idle right)
-		for(int f = 0; f < 5; f++) {
-			// Row 0, columns 0-5
-			frames[f] = spriteGrid[0][f];
-		}
+		// ---- For single texture ----
+		frames[0] = spriteGrid[0][0];
 		animation.add(new Animation<TextureRegion>(0.33f, frames));
+		
+		// Redefine spriteGrid and frames, otherwise the 
+		// other textures will be messed up / flipped
+		spriteGrid = TextureRegion.split(spritesheet, F_WIDTH, F_HEIGHT);
+		frames = new TextureRegion[1];
+		frames[0] = spriteGrid[0][0];
+		frames[0].flip(true, false);
+		animation.add(new Animation<TextureRegion>(0.33f, frames));
+
 		
 	}
 	
