@@ -1,5 +1,7 @@
 package com.dragonjam.game.creatures;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -7,7 +9,7 @@ import com.dragonjam.game.utility.Logger;
 
 public class Creature {
 	
-	protected Animation<TextureRegion> animation;
+	protected ArrayList<Animation<TextureRegion>> animation;
 	protected Vector2 location; // World location, not screen location
 	
 	protected double health = 0.0;
@@ -15,6 +17,7 @@ public class Creature {
 	
 	// Will be used to determine the correct animation frame
 	protected float time = 0.0f;
+	protected int state = 0; // Used to get the correct animation
 	
 	/**
 	 * A base class used for any "creature" or
@@ -38,6 +41,7 @@ public class Creature {
 		this.health = hp;
 		this.attack = attack;
 		
+		animation = new ArrayList<Animation<TextureRegion>>();
 		location = new Vector2(0.0f, 0.0f);
 		
 	}
@@ -56,6 +60,7 @@ public class Creature {
 	public Creature() {
 		
 		location = new Vector2(0.0f, 0.0f);
+		animation = new ArrayList<Animation<TextureRegion>>();
 		
 	}
 	
@@ -151,7 +156,7 @@ public class Creature {
 	
 	
 	public Animation<TextureRegion> getAnimation() {
-		return animation;
+		return animation.get(state);
 	}
 	
 	public Vector2 getLocation() {
@@ -167,6 +172,13 @@ public class Creature {
 	}
 	public void setTime(float time) {
 		this.time = time;
+	}
+	
+	public int getState() {
+		return state;
+	}
+	public void setState(int state) {
+		this.state = state;
 	}
 	
 	public double getHealth() {
