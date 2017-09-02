@@ -19,4 +19,7 @@ public class Constants {
 	public static final int W_WIDTH = 480;
 	public static final int W_HEIGHT = 720;
 	
+	// Enemy range
+	public static final int SPOOKER_RANGE = 50;
+	
 }
