@@ -9,8 +9,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.dragonjam.game.creatures.Player;
+import com.dragonjam.game.creatures.PlayerWhole;
 import com.dragonjam.game.utility.Constants;
+import com.dragonjam.game.utility.InputHandler;
 
 public class PlayScreen implements Screen {
 	
@@ -25,7 +26,7 @@ public class PlayScreen implements Screen {
 	private Texture background;
 	
 	// ---- Creatures ----
-	Player player;
+	PlayerWhole player;
 	
 	/**
 	 * libGDX object for the main play aspect
@@ -48,7 +49,7 @@ public class PlayScreen implements Screen {
 		background = new Texture(Gdx.files.internal("images/background/background.png"));
 		
 		System.out.println("creating player...");
-		player = new Player();
+		player = new PlayerWhole();
 		
 	}
 	
@@ -63,6 +64,15 @@ public class PlayScreen implements Screen {
 	 * @author Rane
 	 */
 	private void update(float delta) {
+		
+		// TODO: Use zoom??
+//		if(InputHandler.scroll > 0) {
+//			cam.zoom = cam.zoom + 0.05f;
+//			InputHandler.scroll = 0;
+//		} else if(InputHandler.scroll < 0) {
+//			cam.zoom = cam.zoom - 0.05f;
+//			InputHandler.scroll = 0;
+//		}
 		
 		cam.update();
 		
@@ -88,9 +98,19 @@ public class PlayScreen implements Screen {
 		stage.getBatch().setProjectionMatrix(cam.combined);
 		stage.getBatch().begin();
 		
+		// Draw back ground
 		stage.getBatch().draw(background, 0, 0, Constants.W_WIDTH, Constants.W_HEIGHT);
-		stage.getBatch().draw(player.getAnimation().getKeyFrame(player.getTime(), true), 
-				(Constants.W_WIDTH / 2) - (player.getF_WIDTH() / 2), (Constants.W_HEIGHT / 2) - (player.getF_HEIGHT() / 2));
+		
+		// Draw player-controlled creatures
+		// Attacker
+		stage.getBatch().draw(player.getAttackerTexture(), 
+				(Constants.W_WIDTH / 2) - (player.getAttackerTexture().getRegionWidth() / 2) + player.getAttacker().getLocation().x, 
+				(Constants.W_HEIGHT / 2) - (player.getAttackerTexture().getRegionWidth() / 2), 100 * cam.zoom, 200 * cam.zoom);
+		// Fisher
+		stage.getBatch().draw(player.getFisherTexture(), 
+				(Constants.W_WIDTH / 2) - (player.getFisherTexture().getRegionWidth() / 2), 
+				(Constants.W_HEIGHT / 2) - (player.getFisherTexture().getRegionHeight() / 2), 
+				100 * cam.zoom, 200 * cam.zoom);
 		
 		stage.getBatch().end();
 		
