@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class PlayerWhole {
 	
+	// Use the attacker's health and attack for
+	// evaluating enemy damage
 	private PlayerAttacker girl;
 	private PlayerFisher boy;
 	
@@ -73,6 +75,14 @@ public class PlayerWhole {
 	
 	public PlayerFisher getFisher() {
 		return boy;
+	}
+	
+	public double getAttack() {
+		return girl.getAttack();
+	}
+	
+	public double getHealth() {
+		return girl.getHealth();
 	}
 	
 }
