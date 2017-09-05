@@ -1,8 +1,8 @@
-package com.dragonjam.game;
+package com.dragonjam.game.controllers;
 
 public class GameManager {
 
-    private GameManager manager = new GameManager();
+    private static GameManager manager = new GameManager();
 
     private GameManager() {}
 

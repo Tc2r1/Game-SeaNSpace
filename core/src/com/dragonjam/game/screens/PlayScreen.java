@@ -8,13 +8,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dragonjam.game.creatures.Boy;
 import com.dragonjam.game.creatures.Girl;
-import com.dragonjam.game.creatures.PlayerWhole;
-import com.dragonjam.game.utility.Constants;
+import com.dragonjam.game.creatures.Mob;
 import com.dragonjam.game.utility.View;
 
 public class PlayScreen implements Screen {
@@ -29,34 +29,35 @@ public class PlayScreen implements Screen {
 	// ---- Textures ----
 	// This will be the bg of the game
 	private Sprite bg;
-	private Sprite boy;
-	private Sprite girl;
+	private Boy boy;
+	private Girl girl;
 	
 	/**
 	 * libGDX object for the main play aspect
 	 * of the game. This screen will handle
 	 * rendering and updating / the game loop.
 	 * 
-	 * @param source
+	 * @param batch
 	 * the SpriteBatch that will be used for drawing
 	 * 
 	 * @author Rane
 	 */
-	public PlayScreen(SpriteBatch source) {
+	public PlayScreen(SpriteBatch batch) {
 				
 		System.out.println("setting up render components...");
 		cam = new OrthographicCamera();
 		viewport = new StretchViewport(View.WIDTH.val(),
 		                               View.HEIGHT.val(),
 		                               cam);
-		stage = new Stage(viewport, source);
+		stage = new Stage(viewport, batch);
 		
 		System.out.println("initializing textures...");
 		bg = new Sprite(new Texture(Gdx.files.internal("images/background.png")));
 		
 		System.out.println("creating player...");
-		boy = new Boy();
-		girl = new Girl();
+		stage.addActor(new Girl());
+		stage.addActor(new Boy());
+
 	}
 	
 	/**
@@ -101,17 +102,15 @@ public class PlayScreen implements Screen {
 		
 		// Then render
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
 		stage.getBatch().setProjectionMatrix(cam.combined);
-		stage.getBatch().begin();
-		
-		// Draw back ground
-		bg.draw(stage.getBatch());
-		girl.draw(stage.getBatch());
-		boy.draw(stage.getBatch());
 
+		stage.getBatch().begin();
+		// Draw background
+		bg.draw(stage.getBatch());
 		stage.getBatch().end();
-		
+
+		// Draw actors
+		stage.draw();
 	}
 
 	/**
@@ -150,34 +149,49 @@ public class PlayScreen implements Screen {
 	@Override
 	public void dispose() {
 		bg.getTexture().dispose();
+		for (Actor a : stage.getActors()) {
+			((Mob) a).getSprite().getTexture().dispose();
+		}
 	}
 
 	/**
-	 * Repositions the background in the center whenever the screen is resized.
-	 * The background will always be set large enough to completely cover the
-	 * viewport. If the width is relatively wide, moves the camera down
+	 * Repositions all the textures in the screen.
+	 * If the width is relatively wide, moves the camera down
 	 * 2 world units so that water is always visible.
 	 *
 	 * @author Cinders-P
 	 */
 
 	private void updateSpritePositions() {
-		float imgRatio = 16f / 9f;
-		float ratio = View.RATIO.val();
 		float height = View.HEIGHT.val();
 		float width = View.WIDTH.val();
 
-		if (ratio > imgRatio) {
-			bg.setSize(height * (1 / imgRatio), height);
-		} else {
-			bg.setSize(width, width * imgRatio);
-		}
-		bg.setCenter(width / 2, height / 2);
-
-		if (ratio <= 4f / 3f) {
+		resizeBackground(width, height);
+		for (Actor a : stage.getActors())
+			((Mob) a).place(width, height);
+		if (View.RATIO.val() <= 4f / 3f)
 			cam.translate(0, -2);
-		}
-		boy.setPosition(width / 2 - 1.9f, height / 2 - 3.4f);
-		girl.setPosition(width / 2 - 0.6f, height / 2 - 2.6f);
+	}
+
+	/**
+	 * Updates the background to the center whenever the screen is resized.
+	 * The background will always be set large enough to completely cover the
+	 * viewport.
+	 *
+	 * @param width             the new worldWidth
+	 * @param height            the new worldHeight
+	 *
+	 * @author Cinders-P
+	 */
+
+	private void resizeBackground(float width, float height) {
+		float imgRatio = 16f / 9f;
+
+		if (View.RATIO.val() > imgRatio)
+			bg.setSize(height * (1 / imgRatio), height);
+		else
+			bg.setSize(width, width * imgRatio);
+
+		bg.setCenter(width / 2, height / 2);
 	}
 }
