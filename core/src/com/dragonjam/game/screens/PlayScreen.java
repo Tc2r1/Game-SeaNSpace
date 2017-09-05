@@ -5,13 +5,15 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dragonjam.game.creatures.PlayerWhole;
 import com.dragonjam.game.utility.Constants;
-import com.dragonjam.game.utility.InputHandler;
+import com.dragonjam.game.utility.View;
 
 public class PlayScreen implements Screen {
 	
@@ -20,10 +22,11 @@ public class PlayScreen implements Screen {
 	// ---- Viewing / camera objects ----
 	OrthographicCamera cam;
 	Viewport viewport;
+	private Box2DDebugRenderer debugRenderer;
 	
 	// ---- Textures ----
-	// This will be the background of the game
-	private Texture background;
+	// This will be the bg of the game
+	private Sprite bg;
 	
 	// ---- Creatures ----
 	PlayerWhole player;
@@ -42,11 +45,13 @@ public class PlayScreen implements Screen {
 				
 		System.out.println("setting up render components...");
 		cam = new OrthographicCamera();
-		viewport = new ScreenViewport(cam);
+		viewport = new StretchViewport(View.WIDTH.val(),
+		                               View.HEIGHT.val(),
+		                               cam);
 		stage = new Stage(viewport, source);
 		
 		System.out.println("initializing textures...");
-		background = new Texture(Gdx.files.internal("images/background/background.png"));
+		bg = new Sprite(new Texture(Gdx.files.internal("images/background.png")));
 		
 		System.out.println("creating player...");
 		player = new PlayerWhole();
@@ -94,14 +99,13 @@ public class PlayScreen implements Screen {
 		update(delta);
 		
 		// Then render
-		Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		stage.getBatch().setProjectionMatrix(cam.combined);
 		stage.getBatch().begin();
 		
 		// Draw back ground
-		stage.getBatch().draw(background, 0, 0, Constants.W_WIDTH, Constants.W_HEIGHT);
+		bg.draw(stage.getBatch());
 		
 		// Draw player-controlled creatures
 		// Attacker
@@ -129,9 +133,22 @@ public class PlayScreen implements Screen {
 		
 	}
 
+	/**
+	 * Detects a window resize, updating the values in View, the viewport,
+	 * and re-centering the camera.
+	 *
+	 * @param width         the new screenWidth
+	 * @param height        the new screenHeight
+	 *
+	 * @author Cinders-P
+	 */
+
 	@Override
 	public void resize(int width, int height) {
-		
+		View.RATIO.setVal((float) height / width);
+		viewport.setWorldSize(View.WIDTH.val(), View.HEIGHT.val());
+		viewport.update(width, height, true);
+		placeBackground();
 	}
 
 	@Override
@@ -151,7 +168,29 @@ public class PlayScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		
+		bg.getTexture().dispose();
+	}
+
+	/**
+	 * Repositions the background in the center whenever the screen is resized.
+	 * The background will always be set large enough to completely cover the
+	 * viewport. If the width is relatively wide, moves the camera down
+	 * 2 world units so that water is always visible.
+	 *
+	 * @author Cinders-P
+	 */
+
+	private void placeBackground() {
+		float imgRatio = 16f / 9f;
+
+		if (View.RATIO.val() > imgRatio)
+			bg.setSize(View.HEIGHT.val() * (1 / imgRatio), View.HEIGHT.val());
+		else
+			bg.setSize(View.WIDTH.val(), View.WIDTH.val() * imgRatio);
+
+		bg.setCenter(View.WIDTH.val() / 2, View.HEIGHT.val() / 2);
+		if (View.RATIO.val() <= 4f / 3f)
+			cam.translate(0, -2);
 	}
 	
 }
