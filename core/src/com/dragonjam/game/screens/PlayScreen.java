@@ -11,6 +11,8 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.dragonjam.game.creatures.Boy;
+import com.dragonjam.game.creatures.Girl;
 import com.dragonjam.game.creatures.PlayerWhole;
 import com.dragonjam.game.utility.Constants;
 import com.dragonjam.game.utility.View;
@@ -27,9 +29,8 @@ public class PlayScreen implements Screen {
 	// ---- Textures ----
 	// This will be the bg of the game
 	private Sprite bg;
-	
-	// ---- Creatures ----
-	PlayerWhole player;
+	private Sprite boy;
+	private Sprite girl;
 	
 	/**
 	 * libGDX object for the main play aspect
@@ -54,8 +55,8 @@ public class PlayScreen implements Screen {
 		bg = new Sprite(new Texture(Gdx.files.internal("images/background.png")));
 		
 		System.out.println("creating player...");
-		player = new PlayerWhole();
-		
+		boy = new Boy();
+		girl = new Girl();
 	}
 	
 	/**
@@ -81,7 +82,7 @@ public class PlayScreen implements Screen {
 		
 		cam.update();
 		
-		player.update(delta);
+		// player.update(delta);
 		
 		//System.out.println(InputHandler.lastClick);
 		
@@ -106,29 +107,9 @@ public class PlayScreen implements Screen {
 		
 		// Draw back ground
 		bg.draw(stage.getBatch());
-		
-		// Draw player-controlled creatures
-		// Attacker
-//		stage.getBatch().draw(player.getAttackerTexture(), 
-//				(Constants.W_WIDTH / 2) - (player.getAttackerTexture().getRegionWidth() * cam.zoom / 3 / 2) + player.getAttacker().getLocation().x, 
-//				(Constants.W_HEIGHT / 2) - (player.getAttackerTexture().getRegionWidth() * cam.zoom / 2.5f / 2) - (Constants.W_HEIGHT * 0.05f), 
-//				player.getAttackerTexture().getRegionWidth() * cam.zoom / 3, player.getAttackerTexture().getRegionHeight() * cam.zoom / 2.5f);
-//		// Fisher
-//		stage.getBatch().draw(player.getFisherTexture(), 
-//				(Constants.W_WIDTH / 2) - (player.getFisherTexture().getRegionWidth() * cam.zoom / 3 / 2), 
-//				(Constants.W_HEIGHT / 2) - (player.getFisherTexture().getRegionHeight() * cam.zoom / 2.5f / 2) - (Constants.W_HEIGHT * 0.08f), 
-//				player.getAttackerTexture().getRegionWidth() * cam.zoom / 3, player.getAttackerTexture().getRegionHeight() * cam.zoom / 2.5f);
-		// Draw the player components
-		stage.getBatch().draw(player.getAttackerTexture(), 
-				(Constants.W_WIDTH / 2) - (100 / 2) + player.getAttacker().getLocation().x, 
-				(Constants.W_HEIGHT / 2) - (200 / 2) - (Constants.W_HEIGHT * 0.05f), 
-				100, 200);
-		// Fisher
-		stage.getBatch().draw(player.getFisherTexture(), 
-				(Constants.W_WIDTH / 2) - (100 / 2), 
-				(Constants.W_HEIGHT / 2) - (200 / 2) - (Constants.W_HEIGHT * 0.08f), 
-				100, 200);
-		
+		girl.draw(stage.getBatch());
+		boy.draw(stage.getBatch());
+
 		stage.getBatch().end();
 		
 	}
@@ -148,7 +129,7 @@ public class PlayScreen implements Screen {
 		View.RATIO.setVal((float) height / width);
 		viewport.setWorldSize(View.WIDTH.val(), View.HEIGHT.val());
 		viewport.update(width, height, true);
-		placeBackground();
+		updateSpritePositions();
 	}
 
 	@Override
@@ -180,17 +161,23 @@ public class PlayScreen implements Screen {
 	 * @author Cinders-P
 	 */
 
-	private void placeBackground() {
+	private void updateSpritePositions() {
 		float imgRatio = 16f / 9f;
+		float ratio = View.RATIO.val();
+		float height = View.HEIGHT.val();
+		float width = View.WIDTH.val();
 
-		if (View.RATIO.val() > imgRatio)
-			bg.setSize(View.HEIGHT.val() * (1 / imgRatio), View.HEIGHT.val());
-		else
-			bg.setSize(View.WIDTH.val(), View.WIDTH.val() * imgRatio);
+		if (ratio > imgRatio) {
+			bg.setSize(height * (1 / imgRatio), height);
+		} else {
+			bg.setSize(width, width * imgRatio);
+		}
+		bg.setCenter(width / 2, height / 2);
 
-		bg.setCenter(View.WIDTH.val() / 2, View.HEIGHT.val() / 2);
-		if (View.RATIO.val() <= 4f / 3f)
+		if (ratio <= 4f / 3f) {
 			cam.translate(0, -2);
+		}
+		boy.setPosition(width / 2 - 1.9f, height / 2 - 3.4f);
+		girl.setPosition(width / 2 - 0.6f, height / 2 - 2.6f);
 	}
-	
 }
