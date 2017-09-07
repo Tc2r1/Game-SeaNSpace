@@ -6,6 +6,7 @@ public class Boy extends Mob {
 
     public Boy() {
         sprite.setTexture(new Texture("images/sprites/boy.png"));
+        resizeBounds();
     }
 
     public void place(float worldWidth, float worldHeight) {

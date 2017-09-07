@@ -16,6 +16,10 @@ public abstract class Mob extends Actor {
         sprite.setSize(2.5f, 2.5f * (5f / 3f));
     }
 
+    void resizeBounds() {
+        sprite.setRegion(0, 0, sprite.getTexture().getWidth(), sprite.getTexture().getHeight());
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         sprite.draw(batch, parentAlpha);

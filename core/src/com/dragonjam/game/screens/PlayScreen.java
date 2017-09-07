@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dragonjam.game.creatures.Boy;
+import com.dragonjam.game.creatures.Drowner;
 import com.dragonjam.game.creatures.Girl;
 import com.dragonjam.game.creatures.Mob;
 import com.dragonjam.game.utility.View;
@@ -57,7 +58,7 @@ public class PlayScreen implements Screen {
 		System.out.println("creating player...");
 		stage.addActor(new Girl());
 		stage.addActor(new Boy());
-
+		stage.addActor(new Drowner());
 	}
 	
 	/**
