@@ -1,15 +1,18 @@
 package com.dragonjam.game.creatures;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 
-public class Girl extends Mob {
+public class Drowner extends Mob {
 
-    public Girl() {
-        sprite.setTexture(new Texture("images/sprites/girl.png"));
+    private static Animation walkAnimation;
+
+    public Drowner() {
+        sprite.setTexture(new Texture("images/sprites/eating.png"));
     }
 
+    @Override
     public void place(float worldWidth, float worldHeight) {
         sprite.setPosition(worldWidth / 2 - 0.8f, worldHeight / 2 - 2.6f);
     }
-
 }
