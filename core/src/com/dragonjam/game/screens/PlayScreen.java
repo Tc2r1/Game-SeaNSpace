@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.dragonjam.game.controllers.DrownerController;
 import com.dragonjam.game.creatures.Boy;
 import com.dragonjam.game.creatures.Drowner;
 import com.dragonjam.game.creatures.Girl;
@@ -21,6 +22,7 @@ import com.dragonjam.game.utility.View;
 public class PlayScreen implements Screen {
 	
 	private Stage stage;
+	private DrownerController dc;
 		
 	// ---- Viewing / camera objects ----
 	OrthographicCamera cam;
@@ -56,9 +58,14 @@ public class PlayScreen implements Screen {
 		bg = new Sprite(new Texture(Gdx.files.internal("images/background.png")));
 		
 		System.out.println("creating player...");
+		dc = new DrownerController();
 		stage.addActor(new Girl());
 		stage.addActor(new Boy());
-		stage.addActor(new Drowner());
+		stage.addActor(dc.newDrowner());
+		stage.addActor(dc.newDrowner());
+		stage.addActor(dc.newDrowner());
+		stage.addActor(dc.newDrowner());
+		stage.addActor(dc.newDrowner());
 	}
 	
 	/**
@@ -72,6 +79,8 @@ public class PlayScreen implements Screen {
 	 * @author Rane
 	 */
 	private void update(float delta) {
+
+		dc.updateDrowners();
 		
 		// TODO: Use zoom??
 //		if(InputHandler.scroll > 0) {
