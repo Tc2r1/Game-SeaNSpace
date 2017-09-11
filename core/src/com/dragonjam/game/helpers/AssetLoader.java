@@ -1,6 +1,7 @@
 package com.dragonjam.game.helpers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -27,6 +28,11 @@ public class AssetLoader {
 					monsterAnim4, monsterAnim5, monsterAnim6;
 	public static TextureRegion monsterEating;
 
+
+	// sound effects
+	public static Sound playerHit01, playerHit02, playerHit03, playerHit04;
+	public static Sound reload, zombieHit01, zombieHit02, zombiedie01, zombiedie02, zombiedie03;
+
 	public static void load() {
 
 
@@ -35,6 +41,7 @@ public class AssetLoader {
 		girlTexture = new Texture(Gdx.files.internal("images/sprites/girl.png"));
 		drownerTexture = new Texture(Gdx.files.internal("images/sprites/drowner.png"));
 		eatingTexture = new Texture(Gdx.files.internal("images/sprites/eating.png"));
+
 
 		backgroundTexture = new Texture(Gdx.files.internal("images/background.png"));
 		//backgroundTexture.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
@@ -82,6 +89,21 @@ public class AssetLoader {
 		// pingpong adds a springy effect.
 		monsterAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
+
+		// Add sound effects!
+
+		playerHit01 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/playerhit01.mp3"));
+		playerHit02 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/playerhit02.mp3"));
+		playerHit03 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/playerhit03.mp3"));
+		playerHit04 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/playerhit04.mp3"));
+		zombieHit01 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/zombiehit1.mp3"));
+		zombieHit02 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/zombiehit2.mp3"));
+		zombiedie01 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/zombiedie1.mp3"));
+		zombiedie02 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/zombiedie2.mp3"));
+		zombiedie03 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/zombiedie3.mp3"));
+
+		reload = Gdx.audio.newSound(Gdx.files.internal("soundfxs/reload.mp3"));
+
 	}
 
 	public static void dispose() {
@@ -91,6 +113,15 @@ public class AssetLoader {
 		drownerTexture.dispose();
 		eatingTexture.dispose();
 		backgroundTexture.dispose();
+		playerHit01.dispose();
+		playerHit02.dispose();
+		playerHit03.dispose();
+		playerHit04.dispose();
+		reload.dispose();
+		zombieHit01.dispose();
+		zombieHit02.dispose();
+
+
 
 	}
 

@@ -3,6 +3,10 @@ package com.dragonjam.game.helpers;
 import com.badlogic.gdx.InputProcessor;
 import com.dragonjam.game.gameobjects.Girl;
 import com.dragonjam.game.gameobjects.Boy;
+import com.dragonjam.game.gameobjects.Monster;
+import com.dragonjam.game.gameworld.GameWorld;
+
+import java.util.ArrayList;
 
 /**
  * Created by Tc2r on 9/9/2017.
@@ -12,13 +16,17 @@ import com.dragonjam.game.gameobjects.Boy;
 
 public class InputHandlers implements InputProcessor {
 
+	private GameWorld gameWorld;
+	private ArrayList<Monster> listOfMonsters;
 	private Boy boy;
 	private Girl girl;
 
 
-	public InputHandlers(Boy boy, Girl girl) {
-		this.boy = boy;
-		this.girl = girl;
+	public InputHandlers(GameWorld gameWorld) {
+		this.gameWorld = gameWorld;
+		this.boy = this.gameWorld.getBoy();
+		this.girl = this.gameWorld.getGirl();
+
 	}
 
 	@Override
@@ -43,8 +51,8 @@ public class InputHandlers implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		boy.onClick();
-		girl.onClick();
+		//boy.onClick();
+		//girl.onClick();
 
 		return true; // you return true to say we handled the touch.
 	}

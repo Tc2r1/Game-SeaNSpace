@@ -43,16 +43,18 @@ public class GameScreen implements Screen {
 		int midPointX = (int) (gameWidth / 2);
 		int midPointY = (int) (gameHeight / 2);
 
-
 		world = new GameWorld(midPointX, midPointY);
-		renderer = new GameRenderer(world, (int) gameWidth, (int) gameHeight, midPointX);
+		InputHandlers handlers = new InputHandlers(world);
+		Gdx.input.setInputProcessor(handlers);
+
 
 		// Add the inputhandler to the game.
 		// we must past anything we want to be clickable to the input handler class.
+		renderer = new GameRenderer(world, (int) gameWidth, (int) gameHeight, midPointX);
+
+
 		Boy boy = world.getBoy();
 		Girl girl = world.getGirl();
-		InputHandlers myInputHandler = new InputHandlers(boy, girl);
-		Gdx.input.setInputProcessor(myInputHandler);
 
 		// TODO: 9/9/2017 Add mobs to method.
 	}

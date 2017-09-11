@@ -2,6 +2,7 @@ package com.dragonjam.game.gameobjects;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.dragonjam.game.helpers.AssetLoader;
 
 
 /**
@@ -42,6 +43,7 @@ public class Girl {
 	}
 
 	public void onClick() {
+	AssetLoader.reload.play();
 
 	}
 

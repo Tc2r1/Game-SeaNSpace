@@ -1,8 +1,7 @@
 package com.dragonjam.game.gameobjects;
 
-import com.badlogic.gdx.math.Vector2;
-
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Created by Tc2r on 9/9/2017.
@@ -17,6 +16,7 @@ public class Boy {
 	private Vector2 position;
 
 
+
 	// Constructor for the class
 	public Boy(float x, float y, int width, int height) {
 		this.width = width;
@@ -28,6 +28,8 @@ public class Boy {
 	public void update(float delta) {
 
 		collisionBox.set(position.x, position.y, width, height);
+
+
 
 	}
 
