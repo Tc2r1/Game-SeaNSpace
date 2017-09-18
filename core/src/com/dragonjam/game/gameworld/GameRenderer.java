@@ -42,7 +42,7 @@ public class GameRenderer {
 	private Girl girl;
 	private MonsterHandler monsterHandler;
 	private Drowner mob;
-	private Array<Monster> gameObjects;
+	private Array<Monster> monsters;
 
 	// Game Assets
 	private TextureRegion background;
@@ -56,7 +56,8 @@ public class GameRenderer {
 		this.gameHeight = gameHeight;
 		this.gameWidth = gameWidth;
 		this.midPointX = midPointX;
-
+		monsterHandler = gameWorld.getMonsterHandler();
+		monsters = new Array<Monster>();
 
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false, 136, gameHeight);
@@ -91,12 +92,8 @@ public class GameRenderer {
 		boy = gameWorld.getBoy();
 		girl = gameWorld.getGirl();
 		monsterHandler = gameWorld.getMonsterHandler();
-		mob = monsterHandler.getDrowner();
+		monsters = monsterHandler.getMonsters();
 		touchPos = new Vector3();
-
-		gameObjects = new Array<Monster>();
-		gameObjects.add(mob);
-
 	}
 
 	public void render(float runTime) {
@@ -118,17 +115,22 @@ public class GameRenderer {
 		batcher.draw(boyTR, boy.getX(), boy.getY(), boy.getWidth(), boy.getHeight());
 		batcher.draw(girlTR, girl.getX(), girl.getY(), girl.getWidth(), girl.getHeight());
 
+
 		// Draw monsters.
-		batcher.draw((TextureRegion) mobAnimation.getKeyFrame(runTime), mob.getX(), mob.getY(), mob.getWidth(), mob.getHeight());
+		for (Monster mob : monsters) {
+			batcher.draw((TextureRegion) mobAnimation.getKeyFrame(runTime), mob.isStartLeft() ? mob.getBounds().x : mob.getBounds().x + mob.getBounds().getWidth(), mob.getBounds().y, mob.isStartLeft() ? mob.getBounds().getWidth() : -mob.getBounds().getWidth(), mob.getBounds().getHeight());
+		}
 		batcher.end();
 
+
+		// See collision Boxes.
 //		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 //		shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
 //		shapeRenderer.rect(boy.getCollisionBox().x, boy.getCollisionBox().y, boy.getCollisionBox().width, boy.getCollisionBox().height);
 //
 //		shapeRenderer.setColor(Color.PINK);
 //		shapeRenderer.rect(girl.getCollisionBox().x, girl.getCollisionBox().y, girl.getCollisionBox().width, girl.getCollisionBox().height);
-//
+
 //		shapeRenderer.setColor(Color.GREEN);
 //		shapeRenderer.rect(mob.getCollisionBox().x, mob.getCollisionBox().y, mob.getCollisionBox().width, mob.getCollisionBox().height);
 //
@@ -157,9 +159,9 @@ public class GameRenderer {
 			}
 
 
-			for (Monster npc : gameObjects) {
-				if (touchPos.x > npc.getCollisionBox().getX() && touchPos.x < npc.getCollisionBox().getX() + npc.getCollisionBox().getWidth()) {
-					if (touchPos.y > npc.getCollisionBox().getY() && touchPos.y < npc.getCollisionBox().getY() + npc.getCollisionBox().getHeight()) {
+			for (Monster npc : monsters) {
+				if (touchPos.x > npc.getBounds().getX() && touchPos.x < npc.getBounds().getX() + npc.getBounds().getWidth()) {
+					if (touchPos.y > npc.getBounds().getY() && touchPos.y < npc.getBounds().getY() + npc.getBounds().getHeight()) {
 						Gdx.app.log("Clicked: ", "monster");
 
 						if (npc.getHp() > 0) {
@@ -173,13 +175,13 @@ public class GameRenderer {
 
 		}
 
-		for (int i = 0; i < gameObjects.size; i++) {
+		for (int i = 0; i < monsters.size; i++) {
 
-			Monster npc = gameObjects.get(i);
+			Monster npc = monsters.get(i);
 
 			if (!npc.isAlive) {
 				npc = null;
-				gameObjects.removeIndex(i);
+				monsters.removeIndex(i);
 
 			}
 		}

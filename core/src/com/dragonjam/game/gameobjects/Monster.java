@@ -1,5 +1,7 @@
 package com.dragonjam.game.gameobjects;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -9,9 +11,10 @@ import com.badlogic.gdx.math.Vector2;
  * Description:
  */
 
-public class Monster {
+public abstract class Monster {
 
-	protected int width, height, hp;
+	protected int hp;
+	protected Texture texture;
 	protected float baseSpeed, speedMod;
 	protected boolean startLeft;
 	protected Vector2 acceleration;
@@ -23,71 +26,52 @@ public class Monster {
 
 	// Constructor for the class
 
-
-	public Monster(float x, float y, int width, int height, float baseSpeed, float speedMod, boolean startLeft, int hp) {
-		this.width = width;
-		this.height = height;
+	public Monster(float x, float y, Texture texture, float baseSpeed, float speedMod, boolean startLeft, int hp) {
+		this.texture = texture;
 		this.baseSpeed = baseSpeed;
 		this.startLeft = startLeft;
 		this.speedMod = speedMod;
 		this.isAlive = true;
 		this.hp = hp;
-		this.acceleration = new Vector2(baseSpeed, 0);
 		this.velocity = new Vector2(0, 0);
 		this.position = new Vector2(x, y);
-		collisionBox = new Rectangle();
 
+		// If we start from opposite side, monster should move in the other direction.
+		Gdx.app.log("Monster.java", String.valueOf(startLeft));
+		if (startLeft) {
+
+			this.acceleration = new Vector2(baseSpeed, 0);
+		} else {
+			this.acceleration = new Vector2(-baseSpeed, 0);
+		}
 	}
 
+
 	public void update(float delta) {
-		acceleration.x = baseSpeed * speedMod;
-		velocity.add(acceleration.cpy().scl(delta));
-		if (velocity.x > 200) {
-			velocity.x = 200;
+
+
+		// monsters should accelerate based on their direction and speed mod.
+		if (startLeft) {
+			acceleration.x = baseSpeed * speedMod;
+			velocity.add(acceleration.cpy().scl(delta));
+			if (velocity.x > 100) {
+				velocity.x = 100;
+			}
+		} else {
+			acceleration.x = -baseSpeed * speedMod;
+			velocity.add(acceleration.cpy().scl(delta));
+			if (velocity.x < -100) {
+				velocity.x = -100;
+			}
 		}
 
 		position.add(velocity.cpy().scl(delta));
-		collisionBox.set(position.x, position.y, width, height);
-
-
-
 	}
 
 	public void onClick() {
 	}
 
-	protected void Death() {
-
-
-	}
-
-	public float getY() {
-		return position.y;
-	}
-
-	public float getX() {
-		return position.x;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
-	}
-
-	public Rectangle getCollisionBox() {
-		return collisionBox;
-	}
+	protected abstract void die();
 
 	public Vector2 getVelocity() {
 		return velocity;
@@ -97,8 +81,29 @@ public class Monster {
 		this.velocity = velocity;
 	}
 
+	public Rectangle getBounds() {
+		return new Rectangle(position.x, position.y, 27, 48);
+	}
 
-	public int getHp() {
-		return hp;
+	public abstract int getHp();
+
+	public boolean getIsAlive() {
+		return isAlive;
+	}
+
+	public abstract boolean collides(Boy boy);
+
+	public abstract boolean collides(Girl girl);
+
+	public void onCollide() {
+		if (startLeft) {
+			position.add(-100, 0);
+		} else {
+			position.add(100, 0);
+		}
+	}
+
+	public boolean isStartLeft() {
+		return startLeft;
 	}
 }

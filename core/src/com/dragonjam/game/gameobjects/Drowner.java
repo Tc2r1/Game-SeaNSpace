@@ -19,8 +19,9 @@ public class Drowner extends Monster {
 	private boolean isAlive = true;
 
 
-	public Drowner(float x, float y, int width, int height, float baseSpeed, float speedMod, boolean startLeft, int hp) {
-		super(x, y, width, height, baseSpeed, speedMod, startLeft, hp);
+	public Drowner(float x, float y, Vector2 pos, float baseSpeed, float speedMod, boolean startLeft, int hp) {
+		super(x, y, AssetLoader.drownerTexture, baseSpeed, speedMod, startLeft, hp);
+
 
 		isAlive = true;
 		this.hp = hp;
@@ -35,7 +36,8 @@ public class Drowner extends Monster {
 
 	}
 
-	public void die() {
+	@Override
+	protected void die() {
 		switch(r.nextInt(3)) {
 			case 0:
 				AssetLoader.zombiedie01.play();
@@ -51,26 +53,24 @@ public class Drowner extends Monster {
 		velocity.y = 0;
 		velocity.x = 0;
 		acceleration.x = 0;
+		//texture.dispose();
+
 	}
 
-	public boolean isAlive() {
-		return isAlive;
-	}
 
 	public boolean collides(Boy boy) {
 		// check if collision occurs with boy.
 		if (startLeft) {
 			if (position.x < boy.getX() + boy.getWidth()) {
 
-
 				// Boy Hit!
 				// push monster back, play sound effect. lower boy hp
 
-				return (Intersector.overlaps(boy.getCollisionBox(), collisionBox));
+				return (Intersector.overlaps(boy.getCollisionBox(), getBounds()));
 			}
 		}else{
 			if (position.x > boy.getX()) {
-				return (Intersector.overlaps(boy.getCollisionBox(), collisionBox));
+				return (Intersector.overlaps(boy.getCollisionBox(), getBounds()));
 
 				// Boy Hit!
 			}
@@ -78,19 +78,21 @@ public class Drowner extends Monster {
 		return false;
 	}
 
-	public void onCollision() {
-		position.add(-100, 0);
-		setVelocity(new Vector2(0,0));
-
-	}
 	public boolean collides(Girl girl) {
 		// check if collision occurs with boy.
 		if (position.x < girl.getX() + girl.getWidth()) {
-			return (Intersector.overlaps(girl.getCollisionBox(), collisionBox));
+			return (Intersector.overlaps(girl.getCollisionBox(), getBounds()));
 
 			// Girl Hit!
 		}
 		return false;
+	}
+
+	@Override
+	public void onCollide() {
+		super.onCollide();
+		setVelocity(new Vector2(0, 0));
+
 	}
 
 	public void onClick() {
@@ -110,6 +112,11 @@ public class Drowner extends Monster {
 		}
 
 
+	}
+
+	@Override
+	public int getHp() {
+		return hp;
 	}
 
 

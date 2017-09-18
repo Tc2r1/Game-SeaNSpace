@@ -81,10 +81,11 @@ public class AssetLoader {
 		monsterAnim6 = new TextureRegion(drownerTexture, 1210, 4, 300, 448);
 
 
-		TextureRegion[] drowners = {monsterAnim1, monsterAnim2, monsterAnim3, monsterAnim4, monsterAnim5, monsterAnim6};
+		TextureRegion[] drownersFaceRight = {monsterAnim1, monsterAnim2, monsterAnim3, monsterAnim4, monsterAnim5, monsterAnim6};
+
 
 		// Animates at .06 seconds per complete animation.
-		monsterAnimation = new Animation(0.06f, drowners);
+		monsterAnimation = new Animation(0.06f, drownersFaceRight);
 
 		// pingpong adds a springy effect.
 		monsterAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);

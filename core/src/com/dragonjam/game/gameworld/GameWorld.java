@@ -1,16 +1,11 @@
 package com.dragonjam.game.gameworld;
 
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
 import com.dragonjam.game.gameobjects.Boy;
-import com.dragonjam.game.gameobjects.Drowner;
 import com.dragonjam.game.gameobjects.Girl;
 import com.dragonjam.game.gameobjects.Monster;
 import com.dragonjam.game.gameobjects.MonsterHandler;
-import com.dragonjam.game.helpers.AssetLoader;
-
-import java.util.Random;
 
 /**
  * Created by Tc2r on 9/9/2017.
@@ -23,18 +18,18 @@ public class GameWorld {
 
 	private Boy boy;
 	private Girl girl;
-	private Drowner mob;
 	private Array<Monster> listOfMonsters;
 	private boolean isAlive = true;
 	private MonsterHandler monsterHandler;
-	private Random r;
 
 
-	public GameWorld(int midPointX, int midPointY) {
+	public GameWorld(float gameWidth, int midPointY) {
 		// Initialize game objects here.
 
 		// Calculations for initial spawns of gameobjects.
-		r = new Random();
+
+		float midPointX = gameWidth / 2;
+
 		float boyInitX = midPointX - 20;
 		float boyInitY = midPointY - 48;
 
@@ -47,12 +42,12 @@ public class GameWorld {
 		// Create game objects.
 		boy = new Boy(boyInitX, boyInitY, 27, 48);
 		girl = new Girl(girlInitX, girlInitY, 27, 48);
-		//mob = new Drowner(0, middleForMobs, 27, 48, 15, 1.1f, true, 30);
 
+
+		monsterHandler = new MonsterHandler(middleForMobs, gameWidth);
 		listOfMonsters = new Array<Monster>();
-		listOfMonsters.addAll(new MonsterHandler(middleForMobs).getDrowner());
+		listOfMonsters.addAll(monsterHandler.getMonsters());
 
-		//monsterHandler = new MonsterHandler(middleForMobs);
 	}
 
 	public void update(float delta) {
@@ -61,30 +56,8 @@ public class GameWorld {
 		girl.update(delta);
 		monsterHandler.update(delta);
 
-		if (monsterHandler.collidesBoy(boy) || monsterHandler.collidesGirl(girl) && isAlive) {
 
-			monsterHandler.getDrowner().onCollision();
-			int randomEffect = r.nextInt(4);
-			Sound playerHit = AssetLoader.playerHit01;
-			switch (randomEffect) {
-				case 0:
-					playerHit = AssetLoader.playerHit01;
-					break;
-				case 1:
-					playerHit = AssetLoader.playerHit02;
-					break;
-				case 2:
-					playerHit = AssetLoader.playerHit03;
-					break;
-				case 3:
-					playerHit = AssetLoader.playerHit04;
-					break;
-			}
-
-			playerHit.play();
-			isAlive = false;
-		}
-
+		monsterHandler.checkCollisions(boy, girl);
 
 	}
 
