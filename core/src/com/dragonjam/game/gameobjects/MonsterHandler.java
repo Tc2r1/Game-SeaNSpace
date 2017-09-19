@@ -41,7 +41,7 @@ public class MonsterHandler {
 			int spawnSide = MathUtils.random(0, 1);
 			Float basespeed = MathUtils.random(5, 30.0f);
 			Float speedMod = MathUtils.random(.5f, 1.5f);
-			int hp = (int) MathUtils.random(20.0f, 50.f);
+			int hp = (int) MathUtils.random(10.0f, 20.f);
 			if (spawnSide == 1) {
 				spawnLeft = true;
 				x = MathUtils.random(-20, 3.0f);
@@ -60,7 +60,7 @@ public class MonsterHandler {
 		for (Monster mob : monsters) {
 			if (mob.collides(boy)) {
 				mob.onCollide();
-				int randomEffect = MathUtils.random(4);
+				int randomEffect = MathUtils.random(0, 4);
 				Sound playerHit = AssetLoader.playerHit01;
 				switch (randomEffect) {
 					case 0:
@@ -77,11 +77,12 @@ public class MonsterHandler {
 						break;
 				}
 
+				gameworld.subtractDamage(10);
 				playerHit.play();
 			}
 			if (mob.collides(girl)) {
 				mob.onCollide();
-				int randomEffect = MathUtils.random(4);
+				int randomEffect = MathUtils.random(0, 4);
 				Sound playerHit = AssetLoader.playerHit01;
 				switch (randomEffect) {
 					case 0:
@@ -98,6 +99,7 @@ public class MonsterHandler {
 						break;
 				}
 
+				gameworld.subtractDamage(10);
 				playerHit.play();
 			}
 

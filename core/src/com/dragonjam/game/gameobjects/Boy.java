@@ -13,6 +13,13 @@ import com.dragonjam.game.helpers.AssetLoader;
  * Description:
  */
 
+/**
+ * This element of the player is the character
+ * that is fishing off the shore and will
+ * be catching fish.
+ *
+ * @author Rane
+ */
 public class Boy {
 
 	private final Rectangle collisionBox;

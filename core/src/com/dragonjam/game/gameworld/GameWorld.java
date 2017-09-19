@@ -1,6 +1,7 @@
 package com.dragonjam.game.gameworld;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.dragonjam.game.gameobjects.Boy;
 import com.dragonjam.game.gameobjects.Girl;
@@ -22,12 +23,15 @@ public class GameWorld {
 	private boolean isAlive = true;
 	private MonsterHandler monsterHandler;
 	private int score = 0;
+	private static int PLAYER_MAX_HEALTH = 100;
+	private int playerCurrentHealth = 100;
 	private float gameWidth;
 
 
 	public GameWorld(float gameWidth, int midPointY) {
 		// Initialize game objects here.
 
+		playerCurrentHealth = PLAYER_MAX_HEALTH;
 		// Calculations for initial spawns of gameobjects.
 
 		this.gameWidth = gameWidth;
@@ -67,8 +71,15 @@ public class GameWorld {
 		monsterHandler.update(delta);
 		monsterHandler.checkCollisions(boy, girl);
 
+		// if player health is too low, they die.
+		if (playerCurrentHealth < 1 && isAlive) {
+			isAlive = false;
+		}
+
+		// if player is dead, game over.
 		if (isAlive == false) {
 
+			Gdx.app.log("PLAYER", "DEAD!");
 		}
 
 	}
@@ -88,6 +99,14 @@ public class GameWorld {
 
 	public void addScore(int increment) {
 		score += increment;
+	}
+
+	public void subtractDamage(int damageAmount) {
+		playerCurrentHealth -= damageAmount;
+	}
+
+	public int getPlayerCurrentHealth() {
+		return playerCurrentHealth;
 	}
 
 	public float getWidth() {

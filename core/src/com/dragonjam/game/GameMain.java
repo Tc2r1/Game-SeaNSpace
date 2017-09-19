@@ -42,7 +42,7 @@ public class GameMain extends Game {
 	@Override
 	public void dispose() {
 		AssetLoader.load();
-		//batch.dispose();
+		batch.dispose();
 		super.dispose();
 	}
 
