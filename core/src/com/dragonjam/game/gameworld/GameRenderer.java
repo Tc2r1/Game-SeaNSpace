@@ -189,6 +189,18 @@ public class GameRenderer {
 
 			}
 		}
+
+		// Display Score:
+
+		String score = gameWorld.getScore() + "";
+
+		// Draw shadow first.
+		// Draw shadow first
+		batcher.end();
+		batcher.begin();
+		AssetLoader.shadow.draw(batcher, score, gameWidth/2 - (3*score.length()), gameHeight - 51);
+		// Draw text
+		AssetLoader.font.draw(batcher, score, gameWidth/2 - (3*score.length()-1), gameHeight - 50);
 		batcher.end();
 	}
 
