@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
@@ -27,6 +28,7 @@ public class AssetLoader {
 	public static TextureRegion monsterAnim1, monsterAnim2, monsterAnim3,
 					monsterAnim4, monsterAnim5, monsterAnim6;
 	public static TextureRegion monsterEating;
+	public static BitmapFont font, shadow;
 
 
 	// sound effects
@@ -41,7 +43,11 @@ public class AssetLoader {
 		girlTexture = new Texture(Gdx.files.internal("images/sprites/girl.png"));
 		drownerTexture = new Texture(Gdx.files.internal("images/sprites/drowner.png"));
 		eatingTexture = new Texture(Gdx.files.internal("images/sprites/eating.png"));
+		font = new BitmapFont(Gdx.files.internal("images/ui/text.fnt"), true);
+		shadow = new BitmapFont(Gdx.files.internal("images/ui/shadow.fnt"), true);
 
+		font.getData().setScale(.25f, -.25f);
+		shadow.getData().setScale(.25f, -.25f);
 
 		backgroundTexture = new Texture(Gdx.files.internal("images/background.png"));
 		//backgroundTexture.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
@@ -121,6 +127,8 @@ public class AssetLoader {
 		reload.dispose();
 		zombieHit01.dispose();
 		zombieHit02.dispose();
+		font.dispose();
+		shadow.dispose();
 
 
 

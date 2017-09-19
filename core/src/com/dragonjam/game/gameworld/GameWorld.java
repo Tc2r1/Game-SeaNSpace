@@ -21,12 +21,16 @@ public class GameWorld {
 	private Array<Monster> listOfMonsters;
 	private boolean isAlive = true;
 	private MonsterHandler monsterHandler;
+	private int score = 0;
+	private float gameWidth;
 
 
 	public GameWorld(float gameWidth, int midPointY) {
 		// Initialize game objects here.
 
 		// Calculations for initial spawns of gameobjects.
+
+		this.gameWidth = gameWidth;
 
 		float midPointX = gameWidth / 2;
 
@@ -44,7 +48,7 @@ public class GameWorld {
 		girl = new Girl(girlInitX, girlInitY, 27, 48);
 
 
-		monsterHandler = new MonsterHandler(middleForMobs, gameWidth);
+		monsterHandler = new MonsterHandler(middleForMobs, this);
 		listOfMonsters = new Array<Monster>();
 		listOfMonsters.addAll(monsterHandler.getMonsters());
 
@@ -52,12 +56,20 @@ public class GameWorld {
 
 	public void update(float delta) {
 
+		// Add a delta cap so that if our game takes too long
+		// to update, we will not break our collision detection.
+
+		if (delta > .15f) {
+			delta = .15f;
+		}
 		boy.update(delta);
 		girl.update(delta);
 		monsterHandler.update(delta);
-
-
 		monsterHandler.checkCollisions(boy, girl);
+
+		if (isAlive == false) {
+
+		}
 
 	}
 
@@ -68,6 +80,18 @@ public class GameWorld {
 	public Boy getBoy() {
 
 		return boy;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void addScore(int increment) {
+		score += increment;
+	}
+
+	public float getWidth() {
+		return gameWidth;
 	}
 
 

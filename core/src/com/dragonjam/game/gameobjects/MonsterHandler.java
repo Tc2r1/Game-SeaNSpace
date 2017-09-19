@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.dragonjam.game.gameworld.GameWorld;
 import com.dragonjam.game.helpers.AssetLoader;
 
 /**
@@ -14,18 +15,19 @@ import com.dragonjam.game.helpers.AssetLoader;
 
 public class MonsterHandler {
 
+	private final Array<Monster> monsters = new Array<Monster>();
 	private Drowner drowner;
 	private boolean spawnLeft = true;
 	private int startAmount = 5;
-	private final Array<Monster> monsters = new Array<Monster>();
 	private float yPos, gameWidth;
+	private GameWorld gameworld;
 
 
-	public MonsterHandler(float yPos, float gameWidth) {
+	public MonsterHandler(float yPos, GameWorld gameWorld) {
 
+		this.gameworld = gameWorld;
 		this.yPos = yPos;
-		this.gameWidth = gameWidth;
-
+		this.gameWidth = gameWorld.getWidth();
 
 		// set statistics for monsters here.
 		monsterSpawnEngine(startAmount);
@@ -108,8 +110,11 @@ public class MonsterHandler {
 			mons.update(delta);
 		}
 
+
+		// If a monster is killed, increase the player's score and remove the monster.
 		for (Monster mons : monsters) {
 			if (mons.getHp() < 1 && mons.getIsAlive()) {
+				addScore(10);
 				mons.die();
 				monsters.removeValue(mons, false);
 			}
@@ -118,11 +123,12 @@ public class MonsterHandler {
 		// spawn infinite monsters
 		if (monsters.size < 2) {
 			monsterSpawnEngine(5);
-
 		}
 
+	}
 
-		// Check how far mobs are to left or right, turn around accordingly.
+	private void addScore(int i) {
+		gameworld.addScore(i);
 	}
 
 	public void addMonster(Monster monster) {
