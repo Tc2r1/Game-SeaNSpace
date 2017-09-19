@@ -48,7 +48,6 @@ public class AssetLoader {
 
 		// Add the background Texture Region.
 		background = new TextureRegion(backgroundTexture);
-		background.flip(true, false);
 
 
 		// Add boy and girl texture regions.

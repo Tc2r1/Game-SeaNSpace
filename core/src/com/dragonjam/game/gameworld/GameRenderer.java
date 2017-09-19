@@ -3,7 +3,6 @@ package com.dragonjam.game.gameworld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.dragonjam.game.gameobjects.Boy;
-import com.dragonjam.game.gameobjects.Drowner;
 import com.dragonjam.game.gameobjects.Girl;
 import com.dragonjam.game.gameobjects.Monster;
 import com.dragonjam.game.gameobjects.MonsterHandler;
@@ -41,13 +39,15 @@ public class GameRenderer {
 	private Boy boy;
 	private Girl girl;
 	private MonsterHandler monsterHandler;
-	private Drowner mob;
+
 	private Array<Monster> monsters;
 
 	// Game Assets
 	private TextureRegion background;
-	private Animation mobAnimation;
 	private TextureRegion girlTR, boyTR;
+
+	// Game Variables
+	private boolean objectClicked = false;
 
 
 	public GameRenderer(GameWorld gameWorld, int gameWidth, int gameHeight, int midPointX) {
@@ -84,7 +84,7 @@ public class GameRenderer {
 		background = AssetLoader.background;
 		boyTR = AssetLoader.boy;
 		girlTR = AssetLoader.girl;
-		mobAnimation = AssetLoader.monsterAnimation;
+
 	}
 
 	private void initGameObjects() {
@@ -103,6 +103,7 @@ public class GameRenderer {
 
 		Gdx.gl.glClearColor(255, 255, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		objectClicked = false;
 
 
 		// Begin boyBatcher
@@ -112,15 +113,15 @@ public class GameRenderer {
 		drawBackground();
 
 		// Draw MainCharacters.
-		batcher.draw(boyTR, boy.getX(), boy.getY(), boy.getWidth(), boy.getHeight());
+		boy.onDraw(batcher);
 		batcher.draw(girlTR, girl.getX(), girl.getY(), girl.getWidth(), girl.getHeight());
 
 
 		// Draw monsters.
 		for (Monster mob : monsters) {
-			batcher.draw((TextureRegion) mobAnimation.getKeyFrame(runTime), mob.isStartLeft() ? mob.getBounds().x : mob.getBounds().x + mob.getBounds().getWidth(), mob.getBounds().y, mob.isStartLeft() ? mob.getBounds().getWidth() : -mob.getBounds().getWidth(), mob.getBounds().getHeight());
+			mob.onDraw(batcher, runTime);
 		}
-		batcher.end();
+
 
 
 		// See collision Boxes.
@@ -144,7 +145,7 @@ public class GameRenderer {
 			if (touchPos.x > boy.getX() && touchPos.x < boy.getX() + boy.getWidth()) {
 				if (touchPos.y > boy.getY() && touchPos.y < boy.getY() + boy.getHeight()) {
 					Gdx.app.log("Clicked: ", "boy");
-					boy.onClick();
+					boy.onClick(batcher);
 
 				}
 			}
@@ -160,15 +161,18 @@ public class GameRenderer {
 
 
 			for (Monster npc : monsters) {
-				if (touchPos.x > npc.getBounds().getX() && touchPos.x < npc.getBounds().getX() + npc.getBounds().getWidth()) {
-					if (touchPos.y > npc.getBounds().getY() && touchPos.y < npc.getBounds().getY() + npc.getBounds().getHeight()) {
+				if (!objectClicked && touchPos.x > npc.getBounds().getX() && touchPos.x < npc.getBounds().getX() + npc.getBounds().getWidth()) {
+					if (!objectClicked && touchPos.y > npc.getBounds().getY() && touchPos.y < npc.getBounds().getY() + npc.getBounds().getHeight()) {
 						Gdx.app.log("Clicked: ", "monster");
-
 						if (npc.getHp() > 0) {
-							npc.onClick();
-						} else{
+							npc.onClick(batcher, runTime);
+
+						} else {
 							npc.isAlive = false;
+
 						}
+						objectClicked = true;
+						break;
 					}
 				}
 			}
@@ -185,6 +189,7 @@ public class GameRenderer {
 
 			}
 		}
+		batcher.end();
 	}
 
 

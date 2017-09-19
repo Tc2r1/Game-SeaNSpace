@@ -2,8 +2,12 @@ package com.dragonjam.game.gameobjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.dragonjam.game.helpers.AssetLoader;
 
 /**
  * Created by Tc2r on 9/9/2017.
@@ -21,6 +25,7 @@ public abstract class Monster {
 	protected Vector2 position;
 	protected Vector2 velocity;
 	protected Rectangle collisionBox;
+	private Animation mobAnimation;
 	public boolean isAlive;
 
 
@@ -35,9 +40,10 @@ public abstract class Monster {
 		this.hp = hp;
 		this.velocity = new Vector2(0, 0);
 		this.position = new Vector2(x, y);
+		this.mobAnimation = AssetLoader.monsterAnimation;
 
 		// If we start from opposite side, monster should move in the other direction.
-		Gdx.app.log("Monster.java", String.valueOf(startLeft));
+
 		if (startLeft) {
 
 			this.acceleration = new Vector2(baseSpeed, 0);
@@ -68,8 +74,19 @@ public abstract class Monster {
 		position.add(velocity.cpy().scl(delta));
 	}
 
-	public void onClick() {
+
+	public void onDraw(SpriteBatch batch, float delta) {
+		batch.draw((TextureRegion) mobAnimation.getKeyFrame(delta), isStartLeft() ? getBounds().x : getBounds().x + getBounds().getWidth(), getBounds().y, isStartLeft() ? getBounds().getWidth() : -getBounds().getWidth(), getBounds().getHeight());
 	}
+
+	public void onClick(SpriteBatch batch, float delta) {
+		Gdx.app.log("touch", "touch");
+		batch.setColor(1, 0, 0, 1);
+		mobAnimation = AssetLoader.monsterAnimation;
+		batch.draw((TextureRegion) mobAnimation.getKeyFrame(delta), isStartLeft() ? getBounds().x : getBounds().x + getBounds().getWidth(), getBounds().y, isStartLeft() ? getBounds().getWidth() : -getBounds().getWidth(), getBounds().getHeight());
+		batch.setColor(1, 1, 1, 1);
+	}
+
 
 	protected abstract void die();
 
@@ -106,4 +123,5 @@ public abstract class Monster {
 	public boolean isStartLeft() {
 		return startLeft;
 	}
+
 }
