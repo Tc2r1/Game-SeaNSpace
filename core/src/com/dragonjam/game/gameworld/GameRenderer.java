@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.dragonjam.game.gameobjects.Boy;
+import com.dragonjam.game.gameobjects.Fish;
+import com.dragonjam.game.gameobjects.FishHandler;
 import com.dragonjam.game.gameobjects.Girl;
 import com.dragonjam.game.gameobjects.Monster;
 import com.dragonjam.game.gameobjects.MonsterHandler;
@@ -39,8 +41,10 @@ public class GameRenderer {
 	private Boy boy;
 	private Girl girl;
 	private MonsterHandler monsterHandler;
+	private FishHandler fishHandler;
 
 	private Array<Monster> monsters;
+	private Array<Fish> fishs;
 
 	// Game Assets
 	private TextureRegion background;
@@ -57,10 +61,12 @@ public class GameRenderer {
 		this.gameWidth = gameWidth;
 		this.midPointX = midPointX;
 		monsterHandler = gameWorld.getMonsterHandler();
+		fishHandler = gameWorld.getFishHandler();
 		monsters = new Array<Monster>();
+		fishs = new Array<Fish>();
 
 		cam = new OrthographicCamera();
-		cam.setToOrtho(false, 136, gameHeight);
+		cam.setToOrtho(false, gameWidth, 360);
 		Gdx.app.log("gameHeight: ", gameHeight+"");
 
 		// Creates a sprit batcher to show animations,
@@ -93,7 +99,12 @@ public class GameRenderer {
 		girl = gameWorld.getGirl();
 		monsterHandler = gameWorld.getMonsterHandler();
 		monsters = monsterHandler.getMonsters();
+		fishHandler = gameWorld.getFishHandler();
+		fishs = fishHandler.getFishs();
 		touchPos = new Vector3();
+	}
+	public OrthographicCamera getCam(){
+		return cam;
 	}
 
 	public void render(float runTime) {
@@ -113,8 +124,9 @@ public class GameRenderer {
 		drawBackground();
 
 		// Draw MainCharacters.
+		girl.onDraw(batcher);
 		boy.onDraw(batcher);
-		batcher.draw(girlTR, girl.getX(), girl.getY(), girl.getWidth(), girl.getHeight());
+		//batcher.draw(girlTR, girl.getX(), girl.getY(), girl.getWidth(), girl.getHeight());
 
 
 		// Draw monsters.
@@ -122,6 +134,10 @@ public class GameRenderer {
 			mob.onDraw(batcher, runTime);
 		}
 
+		// Draw fish.
+		for (Fish fish : fishs) {
+			fish.onDraw(batcher, runTime);
+		}
 
 
 		// See collision Boxes.
@@ -150,14 +166,6 @@ public class GameRenderer {
 				}
 			}
 
-			// if girl clicked
-			if (touchPos.x > girl.getX() && touchPos.x < girl.getX() + girl.getWidth()) {
-				if (touchPos.y > girl.getY() && touchPos.y < girl.getY() + girl.getHeight()) {
-					Gdx.app.log("Clicked: ", "girl");
-					girl.onClick();
-
-				}
-			}
 
 
 			for (Monster npc : monsters) {
@@ -207,7 +215,7 @@ public class GameRenderer {
 
 	private void drawBackground() {
 		batcher.disableBlending();
-		batcher.draw(background, 0, 0, 136, gameHeight);
+		batcher.draw(background, 0, 0, gameWidth, 360);
 		batcher.enableBlending();
 
 	}

@@ -1,26 +1,26 @@
-package com.dragonjam.game.utility;
-
-import java.util.ArrayList;
+package com.dragonjam.game.oldutility;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
+
 public class InputHandler implements InputProcessor {
-	
+
 	public enum ButtonType {
 		LEFT, RIGHT, MIDDLE, NONE
 	}
-	
+
 	// Keys
 	public static ArrayList<String> keysPressed = new ArrayList<String>();
-	
+
 	// Mouse
 	public static Vector2 mousePos = new Vector2(-1.0f, -1.0f);
 	public static Vector2 lastClick = new Vector2(-1.0f, -1.0f);
 	public static ButtonType button = ButtonType.NONE;
 	public static int scroll = 0;
-	
+
 	/**
 	 * This class will listen for any and all action
 	 * events, such as key presses, clicks, etc.
@@ -29,19 +29,19 @@ public class InputHandler implements InputProcessor {
 	 * to get a Vector2 object of where the user last
 	 * clicked. All information can be accessed in a static
 	 * manner.
-	 * 
+	 *
 	 * @author Rane
 	 */
 	public InputHandler() {
-		
+
 	}
-	
+
 	@Override
 	public boolean keyDown(int keycode) {
-		
+
 		// Add any keys that have been pressed
 		// to the ArrayList
-		
+
 		if (keycode == Input.Keys.A) {
 			keysPressed.add("a");
 		}
@@ -54,20 +54,20 @@ public class InputHandler implements InputProcessor {
 		if (keycode == Input.Keys.W) {
 			keysPressed.add("w");
 		}
-		
+
 		if(keycode == Input.Keys.SPACE) {
 			keysPressed.add(" ");
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
-		
+
 		// When te key is released, remove
 		// it from the ArrayList
-		
+
 		if (keycode == Input.Keys.A) {
 			keysPressed.remove("a");
 		}
@@ -80,11 +80,11 @@ public class InputHandler implements InputProcessor {
 		if (keycode == Input.Keys.W) {
 			keysPressed.remove("w");
 		}
-		
+
 		if(keycode == Input.Keys.SPACE) {
 			keysPressed.remove(" ");
 		}
-		
+
 		return false;
 	}
 
@@ -95,10 +95,11 @@ public class InputHandler implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		
+
+
 		lastClick.x = screenX;
 		lastClick.y = screenY;
-		
+
 		if(button == 0) {
 			InputHandler.button = ButtonType.LEFT;
 		} else if(button == 1) {
@@ -108,17 +109,17 @@ public class InputHandler implements InputProcessor {
 		} else {
 			InputHandler.button = ButtonType.NONE;
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		
+
 		lastClick.x = -1.0f;
 		lastClick.y = -1.0f;
 		InputHandler.button = ButtonType.NONE;
-		
+
 		return false;
 	}
 
@@ -136,10 +137,10 @@ public class InputHandler implements InputProcessor {
 
 	@Override
 	public boolean scrolled(int amount) {
-		
+
 		scroll = amount;
 		return false;
 	}
-	
-	
+
+
 }

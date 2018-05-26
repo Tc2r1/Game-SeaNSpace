@@ -11,42 +11,42 @@ import java.util.Random;
 /**
  * Created by Tc2r on 9/10/2017.
  * <p>
- * Description: Handles the spawning and colliding of all the monsters.
+ * Description: Handles the spawning and actions of fish.
  */
 
-public class MonsterHandler {
+public class FishHandler {
 
-	private final Array<Monster> monsters = new Array<Monster>();
-	private Monster spawnMonster;
+	private final Array<Fish> fishs = new Array<Fish>();
+	private Fish spawnFish;
 	private boolean spawnLeft = true;
-	private int startAmount = 1;
-	private float yPos, gameWidth;
+	private int startAmount = 3;
+	private float gameHeight, gameWidth, maxSpawnHeight;
 	private GameWorld gameWorld;
 	Random random;
 
 
-	public MonsterHandler(float yPos, GameWorld gameWorld) {
+	public FishHandler(GameWorld gameWorld) {
 
 		this.gameWorld = gameWorld;
-		this.yPos = yPos;
 		this.gameWidth = gameWorld.getWidth();
+		this.gameHeight = gameWorld.getHeight();
+		maxSpawnHeight = 50.0f;
 
 		// set statistics for monsters here.
-		monsterSpawnEngine(startAmount);
+		spawnEngine(startAmount);
 
 	}
 
-	private void monsterSpawnEngine(int spawnAmount) {
+	private void spawnEngine(int spawnAmount) {
 		for (int i = 0; i < spawnAmount; i++) {
 			random = new Random();
 			boolean spawnLeft = random.nextBoolean();
 
 
-			spawnMonster = new SandCrawler(spawnLeft, yPos, gameWidth);
 //			switch (random.nextInt(3)){
 //				case 0:
 //				case 1:
-//					spawnMonster = new Drowner(spawnLeft, yPos, gameWidth);
+//					spawnFish = new Drowner(spawnLeft, yPos, gameWidth);
 //					Gdx.app.log("Spawning: ", "Drowner");
 //					break;
 //				case 2:
@@ -55,14 +55,35 @@ public class MonsterHandler {
 //					Gdx.app.log("Spawning: ", "SandCrawler");
 //					break;
 //			};
-			monsters.add(spawnMonster);
+			spawnFish = new Fish(spawnLeft, maxSpawnHeight , gameWidth) {
+				@Override
+				protected void die() {
+
+				}
+
+				@Override
+				public int getHp() {
+					return hp;
+				}
+
+				@Override
+				public boolean collides(Boy boy) {
+					return false;
+				}
+
+				@Override
+				public boolean collides(Girl girl) {
+					return false;
+				}
+			};
+			addFish(spawnFish);
 		}
 	}
 
 	public void checkCollisions(Boy boy, Girl girl) {
-		for (Monster mob : monsters) {
-			if (mob.collides(boy)) {
-				mob.onCollide();
+		for (Fish fish : fishs) {
+			if (fish.collides(boy)) {
+				fish.onCollide();
 				int randomEffect = MathUtils.random(0, 4);
 				Sound playerHit = AssetLoader.playerHit01;
 				switch (randomEffect) {
@@ -83,8 +104,8 @@ public class MonsterHandler {
 				gameWorld.subtractDamage(10);
 				playerHit.play();
 			}
-			if (mob.collides(girl)) {
-				mob.onCollide();
+			if (fish.collides(girl)) {
+				fish.onCollide();
 				int randomEffect = MathUtils.random(0, 4);
 				Sound playerHit = AssetLoader.playerHit01;
 				switch (randomEffect) {
@@ -112,23 +133,23 @@ public class MonsterHandler {
 	public void update(float delta) {
 
 		// update each monster
-		for (Monster mons : monsters) {
-			mons.update(delta);
+		for (Fish fish : fishs) {
+			fish.update(delta);
 		}
 
 
-		// If a monster is killed, increase the player's score and remove the monster.
-		for (Monster mons : monsters) {
-			if (mons.getHp() < 1 && mons.getIsAlive()) {
-				addScore(10);
-				mons.die();
-				monsters.removeValue(mons, false);
-			}
-		}
+//		// If a monster is killed, increase the player's score and remove the monster.
+//		for (Monster mons : monsters) {
+//			if (mons.getHp() < 1 && mons.getIsAlive()) {
+//				addScore(10);
+//				mons.die();
+//				monsters.removeValue(mons, false);
+//			}
+//		}
 
 		// spawn infinite monsters
-		if (monsters.size < startAmount) {
-			monsterSpawnEngine(5);
+		if (fishs.size < 2) {
+			spawnEngine(5);
 		}
 
 	}
@@ -137,11 +158,11 @@ public class MonsterHandler {
 		gameWorld.addScore(i);
 	}
 
-	public void addMonster(Monster monster) {
-		monsters.add(monster);
+	public void addFish(Fish fish) {
+		fishs.add(fish);
 	}
 
-	public Array<Monster> getMonsters() {
-		return monsters;
+	public Array<Fish> getFishs() {
+		return fishs;
 	}
 }

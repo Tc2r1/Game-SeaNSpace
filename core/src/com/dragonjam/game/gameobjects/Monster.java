@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.dragonjam.game.helpers.AssetLoader;
 
 /**
  * Created by Tc2r on 9/9/2017.
@@ -24,26 +23,19 @@ public abstract class Monster {
 	protected Vector2 acceleration;
 	protected Vector2 position;
 	protected Vector2 velocity;
-	protected Rectangle collisionBox;
+	protected Vector2 actorSize;
 	private Animation mobAnimation;
 	public boolean isAlive;
 
 
 	// Constructor for the class
-
-	public Monster(float x, float y, Texture texture, float baseSpeed, float speedMod, boolean startLeft, int hp) {
-		this.texture = texture;
-		this.baseSpeed = baseSpeed;
+	public Monster(boolean startLeft, float yPos, float gameWidth, Animation mobAnimation) {
 		this.startLeft = startLeft;
-		this.speedMod = speedMod;
 		this.isAlive = true;
-		this.hp = hp;
 		this.velocity = new Vector2(0, 0);
-		this.position = new Vector2(x, y);
-		this.mobAnimation = AssetLoader.monsterAnimation;
+		this.mobAnimation = mobAnimation;
 
 		// If we start from opposite side, monster should move in the other direction.
-
 		if (startLeft) {
 
 			this.acceleration = new Vector2(baseSpeed, 0);
@@ -82,7 +74,6 @@ public abstract class Monster {
 	public void onClick(SpriteBatch batch, float delta) {
 		Gdx.app.log("touch", "touch");
 		batch.setColor(1, 0, 0, 1);
-		mobAnimation = AssetLoader.monsterAnimation;
 		batch.draw((TextureRegion) mobAnimation.getKeyFrame(delta), isStartLeft() ? getBounds().x : getBounds().x + getBounds().getWidth(), getBounds().y, isStartLeft() ? getBounds().getWidth() : -getBounds().getWidth(), getBounds().getHeight());
 		batch.setColor(1, 1, 1, 1);
 	}
@@ -99,7 +90,7 @@ public abstract class Monster {
 	}
 
 	public Rectangle getBounds() {
-		return new Rectangle(position.x, position.y, 27, 48);
+		return new Rectangle(position.x, position.y, actorSize.x, actorSize.y);
 	}
 
 	public abstract int getHp();
@@ -114,9 +105,9 @@ public abstract class Monster {
 
 	public void onCollide() {
 		if (startLeft) {
-			position.add(-100, 0);
+			position.add(-300, 0);
 		} else {
-			position.add(100, 0);
+			position.add(300, 0);
 		}
 	}
 

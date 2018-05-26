@@ -11,36 +11,37 @@ import java.util.Random;
 /**
  * Created by Tc2r on 9/9/2017.
  * <p>
- * Description: This class handles creating the monster "Drowner"
- * Drowners are the most common monsters, their speed varies, and they have average health.
- *
+ * Description: This class handles creating the monster "Sand Crawler"
+ * Sandcrawler stays low to the ground, moves slowly, and has a bit more health than other monsters.
  */
 
-public class Drowner extends Monster {
+public class SandCrawler extends Monster {
 
 	private Random r;
-	private static  float ACTOR_HEIGHT = 96.0f;
-	private static float ACTOR_WIDTH = 52.0f;
+	private static  float ACTOR_HEIGHT = 48.0f;
+	private static float ACTOR_WIDTH = 27.0f;
+	private int hp = 40;
 	private Float x = 0f;
 	private Float y = 0f;
-	private int hp = (int) MathUtils.random(10.0f, 20.f);
 
-	public Drowner(boolean spawnLeft, float yPos, float gameWidth) {
-		super(spawnLeft, yPos, gameWidth, AssetLoader.drownerAnimation);
+	public SandCrawler(boolean spawnLeft, float yPos, float gameWidth) {
+		super(spawnLeft, yPos, gameWidth, AssetLoader.sandCrawlerAnimation);
 		actorSize = new Vector2(ACTOR_WIDTH, ACTOR_HEIGHT);
-		baseSpeed = MathUtils.random(20.0f, 50.0f);
-		speedMod = MathUtils.random(.5f, 1.5f);
+		baseSpeed = MathUtils.random(5.0f, 12.0f);
+		speedMod = MathUtils.random(1.0f, 1.3f);
 
-		y = MathUtils.random(yPos - 10.0f, yPos + 10.0f);
+		y = MathUtils.random(yPos - 25.0f, yPos - 15.0f);
 		if (spawnLeft) {
 			x = MathUtils.random(-20, 3.0f);
 		} else {
 			// spawns from right side of the map.
 			x = MathUtils.random(gameWidth - 5.0f, gameWidth + 10.0f);
+
 		}
 		position = new Vector2(x, y);
 		r = new Random();
 	}
+
 
 	@Override
 	public void update(float delta) {
@@ -51,13 +52,13 @@ public class Drowner extends Monster {
 	protected void die() {
 		switch(r.nextInt(3)) {
 			case 0:
-				AssetLoader.drownerDie01.play();
+				AssetLoader.sandCrawlerDie01.play();
 				break;
 			case 1:
-				AssetLoader.drownerDie02.play();
+				AssetLoader.sandCrawlerDie01.play();
 				break;
 			case 2:
-				AssetLoader.drownerDie02.play();
+				AssetLoader.sandCrawlerDie01.play();
 				break;
 		}
 		isAlive = false;
@@ -117,7 +118,7 @@ public class Drowner extends Monster {
 			if (r.nextInt(2) == 0) {
 				AssetLoader.drownerHit.play();
 			} else {
-				AssetLoader.drownerHit02.play();
+				AssetLoader.sandCrawlerDie01.play();
 			}
 
 		}

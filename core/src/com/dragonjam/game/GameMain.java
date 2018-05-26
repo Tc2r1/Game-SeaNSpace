@@ -5,8 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.dragonjam.game.helpers.AssetLoader;
 import com.dragonjam.game.screens.GameScreen;
-import com.dragonjam.game.utility.InputHandler;
-import com.dragonjam.game.utility.View;
+import com.dragonjam.game.oldutility.InputHandler;
+import com.dragonjam.game.oldutility.View;
 
 public class GameMain extends Game {
 
@@ -28,7 +28,6 @@ public class GameMain extends Game {
 		Gdx.input.setInputProcessor(new InputHandler());
 
 		Gdx.graphics.setTitle("A Song of Sea and Space");
-		//this.setScreen(new PlayScreen(batch));
 		setScreen(new GameScreen());
 
 

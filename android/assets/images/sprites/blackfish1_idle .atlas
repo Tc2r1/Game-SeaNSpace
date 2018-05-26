@@ -1,0 +1,146 @@
+
+blackfish1_idle .png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+fish_black_idle
+  rotate: false
+  xy: 2, 2
+  size: 488, 304
+  orig: 488, 304
+  offset: 0, 0
+  index: 1
+fish_black_idle
+  rotate: false
+  xy: 494, 2
+  size: 488, 304
+  orig: 488, 304
+  offset: 0, 0
+  index: 2
+fish_black_idle
+  rotate: false
+  xy: 986, 2
+  size: 489, 304
+  orig: 489, 304
+  offset: 0, 0
+  index: 3
+fish_black_idle
+  rotate: false
+  xy: 1478, 2
+  size: 489, 305
+  orig: 489, 305
+  offset: 0, 0
+  index: 4
+fish_black_idle
+  rotate: false
+  xy: 2, 312
+  size: 489, 305
+  orig: 489, 305
+  offset: 0, 0
+  index: 5
+fish_black_idle
+  rotate: false
+  xy: 494, 312
+  size: 489, 306
+  orig: 489, 306
+  offset: 0, 0
+  index: 6
+fish_black_idle
+  rotate: false
+  xy: 986, 312
+  size: 489, 306
+  orig: 489, 306
+  offset: 0, 0
+  index: 7
+fish_black_idle
+  rotate: false
+  xy: 1478, 312
+  size: 489, 307
+  orig: 489, 307
+  offset: 0, 0
+  index: 8
+fish_black_idle
+  rotate: false
+  xy: 2, 622
+  size: 489, 307
+  orig: 489, 307
+  offset: 0, 0
+  index: 9
+fish_black_idle
+  rotate: false
+  xy: 494, 622
+  size: 489, 307
+  orig: 489, 307
+  offset: 0, 0
+  index: 10
+fish_black_idle
+  rotate: false
+  xy: 986, 622
+  size: 490, 308
+  orig: 490, 308
+  offset: 0, 0
+  index: 11
+fish_black_idle
+  rotate: false
+  xy: 1478, 622
+  size: 489, 307
+  orig: 489, 307
+  offset: 0, 0
+  index: 12
+fish_black_idle
+  rotate: false
+  xy: 2, 932
+  size: 489, 307
+  orig: 489, 307
+  offset: 0, 0
+  index: 13
+fish_black_idle
+  rotate: false
+  xy: 494, 932
+  size: 489, 307
+  orig: 489, 307
+  offset: 0, 0
+  index: 14
+fish_black_idle
+  rotate: false
+  xy: 986, 932
+  size: 489, 306
+  orig: 489, 306
+  offset: 0, 0
+  index: 15
+fish_black_idle
+  rotate: false
+  xy: 1478, 932
+  size: 489, 306
+  orig: 489, 306
+  offset: 0, 0
+  index: 16
+fish_black_idle
+  rotate: false
+  xy: 2, 1242
+  size: 489, 305
+  orig: 489, 305
+  offset: 0, 0
+  index: 17
+fish_black_idle
+  rotate: false
+  xy: 494, 1242
+  size: 489, 305
+  orig: 489, 305
+  offset: 0, 0
+  index: 18
+fish_black_idle
+  rotate: false
+  xy: 986, 1242
+  size: 489, 304
+  orig: 489, 304
+  offset: 0, 0
+  index: 19
+fish_black_idle
+  rotate: false
+  xy: 1478, 1242
+  size: 488, 304
+  orig: 488, 304
+  offset: 0, 0
+  index: 20

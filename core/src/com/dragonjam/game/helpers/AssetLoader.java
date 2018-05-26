@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
@@ -15,32 +16,37 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetLoader {
 
-	public static Texture backgroundTexture, boyTexture;
+	public static Texture backgroundTexture, boyTexture, boyPullLTexture, boyPullRTexture;
 	public static Texture drownerTexture;
+	public static Texture sandCrawlerTexture;
 	public static Texture eatingTexture;
 	public static Texture girlTexture;
 
-	public static Animation monsterAnimation;
-
+	public static Animation drownerAnimation, sandCrawlerAnimation, girlFiringAnim, boyFishingLeft, boyFishingRight;
+	public static Animation fishBlackIdle, fishBlackSwim;
 	public static TextureRegion background;
 	public static TextureRegion boy;
 	public static TextureRegion girl;
-	public static TextureRegion monsterAnim1, monsterAnim2, monsterAnim3,
-					monsterAnim4, monsterAnim5, monsterAnim6;
-	public static TextureRegion monsterEating;
+	public static TextureRegion drownerAnim1, drownerAnim2, drownerAnim3,
+					drownerAnim4, drownerAnim5, drownerAnim6;
+	public static TextureRegion drownerEating;
 	public static BitmapFont font, shadow;
 
 
 	// sound effects
 	public static Sound playerHit01, playerHit02, playerHit03, playerHit04;
-	public static Sound reload, zombieHit01, zombieHit02, zombiedie01, zombiedie02, zombiedie03;
+	public static Sound reload, drownerHit, drownerHit02, drownerDie01, drownerDie02, sandCrawlerDie01;
 
 	public static void load() {
 
 
 		// Load the textures from the images.
 		boyTexture = new Texture(Gdx.files.internal("images/sprites/boy.png"));
+		boyPullLTexture = new Texture(Gdx.files.internal("images/sprites/boy-left.png"));
+		boyPullRTexture = new Texture(Gdx.files.internal("images/sprites/boy-right.png"));
+		boyTexture = new Texture(Gdx.files.internal("images/sprites/boy.png"));
 		girlTexture = new Texture(Gdx.files.internal("images/sprites/girl.png"));
+		sandCrawlerTexture = new Texture(Gdx.files.internal("images/sprites/drowner.png"));
 		drownerTexture = new Texture(Gdx.files.internal("images/sprites/drowner.png"));
 		eatingTexture = new Texture(Gdx.files.internal("images/sprites/eating.png"));
 		font = new BitmapFont(Gdx.files.internal("images/ui/text.fnt"), true);
@@ -49,7 +55,7 @@ public class AssetLoader {
 		font.getData().setScale(.25f, -.25f);
 		shadow.getData().setScale(.25f, -.25f);
 
-		backgroundTexture = new Texture(Gdx.files.internal("images/background.png"));
+		backgroundTexture = new Texture(Gdx.files.internal("images/background_h.png"));
 		//backgroundTexture.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
 
 		// Add the background Texture Region.
@@ -62,39 +68,36 @@ public class AssetLoader {
 		girl = new TextureRegion(girlTexture);
 
 
-		// monster eating Texture.
-		monsterEating = new TextureRegion(eatingTexture);
+		// drowner eating Texture.
+		drownerEating = new TextureRegion(eatingTexture);
 
 
 		// create the animations.
+		girlFiringAnim = new Animation(
+				.05f,
+				new TextureAtlas("images/sprites/firesprite.atlas").getRegions()
+		);
 
-		monsterAnim1 = new TextureRegion(drownerTexture, 2, 2, 300, 450);
+		boyFishingLeft = new Animation(
+				.2f,
+				boy, new TextureRegion(boyPullRTexture), new TextureRegion(boyPullRTexture), boy
+		);
 
-
-		monsterAnim2 = new TextureRegion(drownerTexture, 304, 2, 300, 450);
-
-
-		monsterAnim3 = new TextureRegion(drownerTexture, 606, 3, 300, 449);
-
-
-		monsterAnim4 = new TextureRegion(drownerTexture, 1512, 8, 296, 444);
-
-
-		monsterAnim5 = new TextureRegion(drownerTexture, 908, 4, 300, 448);
-
-
-		monsterAnim6 = new TextureRegion(drownerTexture, 1210, 4, 300, 448);
-
-
-		TextureRegion[] drownersFaceRight = {monsterAnim1, monsterAnim2, monsterAnim3, monsterAnim4, monsterAnim5, monsterAnim6};
-
+		boyFishingRight = new Animation(
+				.2f,
+				boy, new TextureRegion(boyPullLTexture), new TextureRegion(boyPullLTexture), boy
+		);
 
 		// Animates at .06 seconds per complete animation.
-		monsterAnimation = new Animation(0.06f, drownersFaceRight);
+		drownerAnimation = new Animation(.2f, new TextureAtlas("images/sprites/drowner.atlas").getRegions());
+		sandCrawlerAnimation = new Animation(.05f, new TextureAtlas("images/sprites/drowner.atlas").getRegions());
+
+		fishBlackSwim = new Animation(.1f, new TextureAtlas("images/sprites/fish_black_swim.atlas").findRegions("fish_black_swim"), Animation.PlayMode.LOOP);
+		fishBlackIdle = new Animation(.1f, new TextureAtlas("images/sprites/fish_black_idle.atlas").findRegions("fish_black_idle"), Animation.PlayMode.LOOP);
+
 
 		// pingpong adds a springy effect.
-		monsterAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-
+		drownerAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
 		// Add sound effects!
 
@@ -102,11 +105,12 @@ public class AssetLoader {
 		playerHit02 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/playerhit02.mp3"));
 		playerHit03 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/playerhit03.mp3"));
 		playerHit04 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/playerhit04.mp3"));
-		zombieHit01 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/zombiehit1.mp3"));
-		zombieHit02 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/zombiehit2.mp3"));
-		zombiedie01 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/zombiedie1.mp3"));
-		zombiedie02 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/zombiedie2.mp3"));
-		zombiedie03 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/zombiedie3.mp3"));
+		drownerHit = Gdx.audio.newSound(Gdx.files.internal("soundfxs/drownerhit1.mp3"));
+		drownerHit02 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/drownerhit2.mp3"));
+		drownerDie01 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/drownerdie1.mp3"));
+		drownerDie02 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/drownerdie2.mp3"));
+
+		sandCrawlerDie01 = Gdx.audio.newSound(Gdx.files.internal("soundfxs/sandcrawlerdie1.mp3"));
 
 		reload = Gdx.audio.newSound(Gdx.files.internal("soundfxs/reload.mp3"));
 
@@ -124,8 +128,11 @@ public class AssetLoader {
 		playerHit03.dispose();
 		playerHit04.dispose();
 		reload.dispose();
-		zombieHit01.dispose();
-		zombieHit02.dispose();
+		drownerHit.dispose();
+		drownerHit02.dispose();
+		drownerDie01.dispose();
+		drownerDie02.dispose();
+		sandCrawlerDie01.dispose();
 		font.dispose();
 		shadow.dispose();
 
