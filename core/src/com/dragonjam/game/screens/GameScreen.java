@@ -32,26 +32,26 @@ public class GameScreen implements Screen {
 
 		float screenWidth = Gdx.graphics.getWidth();
 		float screenHeight = Gdx.graphics.getHeight();
-
-		// Flat setting for game width.
-		float gameWidth = 136;
+		Gdx.app.log("Screen Width: ", " "+ screenWidth);
+		Gdx.app.log("Screen Height: ", " "+ screenHeight);
+		// Flat setting for game height.
+		float gameHeight = 360;
 
 		// Scales the height of the game based on the size of the phone.
-		float gameHeight = screenHeight / (screenWidth / gameWidth);
-
+		float gameWidth = screenWidth / (screenHeight / gameHeight);
+		Gdx.app.log("Game Width: ", " "+ gameWidth);
+		Gdx.app.log("Game Height: ", " "+ gameHeight);
 		// middle of the screen based on the height of the device/game window.
 		int midPointX = (int) (gameWidth / 2);
 		int midPointY = (int) (gameHeight / 2);
 
-		world = new GameWorld(gameWidth, midPointY);
-		InputHandlers handlers = new InputHandlers(world);
-		Gdx.input.setInputProcessor(handlers);
-
+		world = new GameWorld(gameHeight, gameWidth, midPointX);
 
 		// Add the inputhandler to the game.
 		// we must past anything we want to be clickable to the input handler class.
 		renderer = new GameRenderer(world, (int) gameWidth, (int) gameHeight, midPointX);
-
+		InputHandlers handlers = new InputHandlers(world, renderer);
+		Gdx.input.setInputProcessor(handlers);
 
 		Boy boy = world.getBoy();
 		Girl girl = world.getGirl();

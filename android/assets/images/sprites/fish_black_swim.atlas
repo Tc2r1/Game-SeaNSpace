@@ -1,0 +1,90 @@
+
+fish_black_swim.png
+size: 2048,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+fish_black_swim
+  rotate: false
+  xy: 2, 620
+  size: 488, 304
+  orig: 488, 304
+  offset: 0, 0
+  index: 1
+fish_black_swim
+  rotate: false
+  xy: 2, 314
+  size: 487, 304
+  orig: 487, 304
+  offset: 0, 0
+  index: 7
+fish_black_swim
+  rotate: false
+  xy: 2, 2
+  size: 469, 310
+  orig: 469, 310
+  offset: 0, 0
+  index: 8
+fish_black_swim
+  rotate: false
+  xy: 492, 615
+  size: 468, 309
+  orig: 468, 309
+  offset: 0, 0
+  index: 2
+fish_black_swim
+  rotate: false
+  xy: 962, 615
+  size: 468, 309
+  orig: 468, 309
+  offset: 0, 0
+  index: 6
+fish_black_swim
+  rotate: false
+  xy: 1432, 614
+  size: 466, 310
+  orig: 466, 310
+  offset: 0, 0
+  index: 12
+fish_black_swim
+  rotate: false
+  xy: 491, 311
+  size: 448, 302
+  orig: 448, 302
+  offset: 0, 0
+  index: 9
+fish_black_swim
+  rotate: false
+  xy: 941, 311
+  size: 447, 302
+  orig: 447, 302
+  offset: 0, 0
+  index: 3
+fish_black_swim
+  rotate: false
+  xy: 473, 8
+  size: 447, 301
+  orig: 447, 301
+  offset: 0, 0
+  index: 5
+fish_black_swim
+  rotate: false
+  xy: 922, 9
+  size: 445, 300
+  orig: 445, 300
+  offset: 0, 0
+  index: 11
+fish_black_swim
+  rotate: false
+  xy: 1390, 312
+  size: 427, 300
+  orig: 427, 300
+  offset: 0, 0
+  index: 10
+fish_black_swim
+  rotate: false
+  xy: 1390, 11
+  size: 425, 299
+  orig: 425, 299
+  offset: 0, 0
+  index: 4
