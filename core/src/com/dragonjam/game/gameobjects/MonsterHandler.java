@@ -1,5 +1,6 @@
 package com.dragonjam.game.gameobjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
@@ -41,20 +42,18 @@ public class MonsterHandler {
 			random = new Random();
 			boolean spawnLeft = random.nextBoolean();
 
+			switch (random.nextInt(3)){
+				case 0:
+				case 1:
+					spawnMonster = new Drowner(spawnLeft, yPos, gameWidth);
+					Gdx.app.log("Spawning: ", "Drowner");
+					break;
+				case 2:
+					spawnMonster = new SandCrawler(spawnLeft, yPos, gameWidth);
 
-			spawnMonster = new SandCrawler(spawnLeft, yPos, gameWidth);
-//			switch (random.nextInt(3)){
-//				case 0:
-//				case 1:
-//					spawnMonster = new Drowner(spawnLeft, yPos, gameWidth);
-//					Gdx.app.log("Spawning: ", "Drowner");
-//					break;
-//				case 2:
-//					spawnMonster = new SandCrawler(spawnLeft, yPos, gameWidth);
-//
-//					Gdx.app.log("Spawning: ", "SandCrawler");
-//					break;
-//			};
+					Gdx.app.log("Spawning: ", "SandCrawler");
+					break;
+			};
 			monsters.add(spawnMonster);
 		}
 	}

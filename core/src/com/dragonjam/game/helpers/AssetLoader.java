@@ -89,15 +89,13 @@ public class AssetLoader {
 		);
 
 		// Animates at .06 seconds per complete animation.
-		drownerAnimation = new Animation(.2f, new TextureAtlas("images/sprites/drowner.atlas").getRegions());
-		sandCrawlerAnimation = new Animation(.05f, new TextureAtlas("images/sprites/drowner.atlas").getRegions());
 
-		fishBlackSwim = new Animation(.1f, new TextureAtlas("images/sprites/fish_black_swim.atlas").findRegions("fish_black_swim"), Animation.PlayMode.LOOP);
+		sandCrawlerAnimation = new Animation(.2f, new TextureAtlas("images/sprites/drowner.atlas").getRegions(), Animation.PlayMode.LOOP_PINGPONG);
+		drownerAnimation = new Animation(.2f, new TextureAtlas("images/sprites/drowner.atlas").getRegions(), Animation.PlayMode.LOOP_PINGPONG);
+
+		fishBlackSwim = new Animation(.1f, new TextureAtlas("images/sprites/fish_black_swim.atlas").findRegions("fish_black_swim"), Animation.PlayMode.LOOP_PINGPONG);
 		fishBlackIdle = new Animation(.1f, new TextureAtlas("images/sprites/fish_black_idle.atlas").findRegions("fish_black_idle"), Animation.PlayMode.LOOP);
 
-
-		// pingpong adds a springy effect.
-		drownerAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
 		// Add sound effects!
 

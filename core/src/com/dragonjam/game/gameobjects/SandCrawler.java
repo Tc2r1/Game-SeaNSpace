@@ -20,9 +20,9 @@ public class SandCrawler extends Monster {
 	private Random r;
 	private static  float ACTOR_HEIGHT = 48.0f;
 	private static float ACTOR_WIDTH = 27.0f;
-	private int hp = 40;
 	private Float x = 0f;
 	private Float y = 0f;
+	private int hp = 40;
 
 	public SandCrawler(boolean spawnLeft, float yPos, float gameWidth) {
 		super(spawnLeft, yPos, gameWidth, AssetLoader.sandCrawlerAnimation);
