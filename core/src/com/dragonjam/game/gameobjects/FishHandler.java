@@ -19,7 +19,7 @@ public class FishHandler {
 	private final Array<Fish> fishs = new Array<Fish>();
 	private Fish spawnFish;
 	private boolean spawnLeft = true;
-	private int startAmount = 3;
+	private int startAmount = 1;
 	private float gameHeight, gameWidth, maxSpawnHeight;
 	private GameWorld gameWorld;
 	Random random;
@@ -148,7 +148,7 @@ public class FishHandler {
 //		}
 
 		// spawn infinite monsters
-		if (fishs.size < 2) {
+		if (fishs.size < startAmount) {
 			spawnEngine(5);
 		}
 
