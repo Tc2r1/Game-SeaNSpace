@@ -1,10 +1,7 @@
 package com.dragonjam.game.gameobjects;
 
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.dragonjam.game.gameworld.GameWorld;
-import com.dragonjam.game.helpers.AssetLoader;
 
 import java.util.Random;
 
@@ -19,7 +16,7 @@ public class FishHandler {
 	private final Array<Fish> fishs = new Array<Fish>();
 	private Fish spawnFish;
 	private boolean spawnLeft = true;
-	private int startAmount = 1;
+	private int startAmount = 10;
 	private float gameHeight, gameWidth, maxSpawnHeight;
 	private GameWorld gameWorld;
 	Random random;
@@ -40,22 +37,8 @@ public class FishHandler {
 	private void spawnEngine(int spawnAmount) {
 		for (int i = 0; i < spawnAmount; i++) {
 			random = new Random();
-			boolean spawnLeft = random.nextBoolean();
 
-
-//			switch (random.nextInt(3)){
-//				case 0:
-//				case 1:
-//					spawnFish = new Drowner(spawnLeft, yPos, gameWidth);
-//					Gdx.app.log("Spawning: ", "Drowner");
-//					break;
-//				case 2:
-//					spawnMonster = new SandCrawler(spawnLeft, yPos, gameWidth);
-//
-//					Gdx.app.log("Spawning: ", "SandCrawler");
-//					break;
-//			};
-			spawnFish = new Fish(spawnLeft, maxSpawnHeight , gameWidth) {
+			spawnFish = new Fish(maxSpawnHeight , gameWidth) {
 				@Override
 				protected void die() {
 
@@ -80,56 +63,6 @@ public class FishHandler {
 		}
 	}
 
-	public void checkCollisions(Boy boy, Girl girl) {
-		for (Fish fish : fishs) {
-			if (fish.collides(boy)) {
-				fish.onCollide();
-				int randomEffect = MathUtils.random(0, 4);
-				Sound playerHit = AssetLoader.playerHit01;
-				switch (randomEffect) {
-					case 0:
-						playerHit = AssetLoader.playerHit01;
-						break;
-					case 1:
-						playerHit = AssetLoader.playerHit02;
-						break;
-					case 2:
-						playerHit = AssetLoader.playerHit03;
-						break;
-					case 3:
-						playerHit = AssetLoader.playerHit04;
-						break;
-				}
-
-				gameWorld.subtractDamage(10);
-				playerHit.play();
-			}
-			if (fish.collides(girl)) {
-				fish.onCollide();
-				int randomEffect = MathUtils.random(0, 4);
-				Sound playerHit = AssetLoader.playerHit01;
-				switch (randomEffect) {
-					case 0:
-						playerHit = AssetLoader.playerHit01;
-						break;
-					case 1:
-						playerHit = AssetLoader.playerHit02;
-						break;
-					case 2:
-						playerHit = AssetLoader.playerHit03;
-						break;
-					case 3:
-						playerHit = AssetLoader.playerHit04;
-						break;
-				}
-
-				gameWorld.subtractDamage(10);
-				playerHit.play();
-			}
-
-		}
-	}
-
 	public void update(float delta) {
 
 		// update each monster
@@ -149,7 +82,7 @@ public class FishHandler {
 
 		// spawn infinite monsters
 		if (fishs.size < startAmount) {
-			spawnEngine(5);
+			spawnEngine(3);
 		}
 
 	}

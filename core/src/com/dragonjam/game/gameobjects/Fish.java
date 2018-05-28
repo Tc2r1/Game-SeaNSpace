@@ -47,7 +47,7 @@ public abstract class Fish {
 
 
     // Constructor for the class
-    public Fish(boolean startLeft, float maxSpawnHeight, float maxSpawnWidth) {
+    public Fish(float maxSpawnHeight, float maxSpawnWidth) {
         y = MathUtils.random(maxSpawnHeight);
         if (startLeft) {
             x = MathUtils.random(-20, maxSpawnWidth / 2);
@@ -57,22 +57,14 @@ public abstract class Fish {
         }
         position = new Vector2(x, y);
         collisionBox = new Rectangle();
-        this.startLeft = startLeft;
+        this.startLeft = true;
         this.isAlive = true;
         this.velocity = new Vector2(0, 0);
         this.mobAnimation = AssetLoader.fishBlackIdle;
-        this.actorSize = new Vector2(27, 27);
+        this.actorSize = new Vector2(17, 17);
         this.maxSpawnWidth = maxSpawnWidth;
+        this.acceleration = new Vector2();
         r = new Random();
-
-
-        // If we start from opposite side, monster should move in the other direction.
-        if (startLeft) {
-
-            this.acceleration = new Vector2(baseSpeed, 0);
-        } else {
-            this.acceleration = new Vector2(-baseSpeed, 0);
-        }
 
         // initialize state variables
         currentState = State.IDLE;
@@ -116,7 +108,7 @@ public abstract class Fish {
             }
 
             // If time for Fish to make an action.
-            if (swimDecisionsTimer > 4) {
+            if (swimDecisionsTimer > r.nextInt(10) + 4) {
                 Gdx.app.log("new Action", "new action Time");
                 swimDecisionsTimer = 0;
                 swimDecision = r.nextInt(2);
@@ -156,13 +148,19 @@ public abstract class Fish {
                 }
             }
             position.add(velocity.cpy().scl(delta));
+
+            if(velocity.x < 0){
+                startLeft = true;
+            }else{
+                startLeft = false;
+            }
         }
 
         collisionBox.set(position.x, position.y, width, height);
     }
 
     public void onDraw(SpriteBatch batch, float delta) {
-        batch.draw((TextureRegion) mobAnimation.getKeyFrame(delta), isStartLeft() ? getBounds().x : getBounds().x + getBounds().getWidth(), getBounds().y, isStartLeft() ? getBounds().getWidth() : -getBounds().getWidth(), getBounds().getHeight());
+        batch.draw((TextureRegion) mobAnimation.getKeyFrame(delta), isMovingRight() ? getBounds().x : getBounds().x + getBounds().getWidth(), getBounds().y, isMovingRight() ? getBounds().getWidth() : -getBounds().getWidth(), getBounds().getHeight());
     }
 
     public Fish.State getState() {
@@ -220,7 +218,7 @@ public abstract class Fish {
     public void onClick(SpriteBatch batch, float delta) {
         Gdx.app.log("touch", "touch");
         batch.setColor(1, 0, 0, 1);
-        batch.draw((TextureRegion) mobAnimation.getKeyFrame(delta), isStartLeft() ? getBounds().x : getBounds().x + getBounds().getWidth(), getBounds().y, isStartLeft() ? getBounds().getWidth() : -getBounds().getWidth(), getBounds().getHeight());
+        batch.draw((TextureRegion) mobAnimation.getKeyFrame(delta), isMovingRight() ? getBounds().x : getBounds().x + getBounds().getWidth(), getBounds().y, isMovingRight() ? getBounds().getWidth() : -getBounds().getWidth(), getBounds().getHeight());
         batch.setColor(1, 1, 1, 1);
     }
 
@@ -260,7 +258,7 @@ public abstract class Fish {
         isSwimming = true;
     }
 
-    public boolean isStartLeft() {
+    public boolean isMovingRight() {
         return startLeft;
     }
 
