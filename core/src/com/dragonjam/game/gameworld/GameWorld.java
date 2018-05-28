@@ -73,7 +73,6 @@ public class GameWorld {
 		monsterHandler.update(delta);
 		monsterHandler.checkCollisions(boy, girl);
 		fishHandler.update(delta);
-		fishHandler.checkCollisions(boy, girl);
 
 		// if player health is too low, they die.
 		if (playerCurrentHealth < 1 && isAlive) {
