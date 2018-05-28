@@ -1,13 +1,11 @@
-# Dragon Jam Game
-
-This is the game that we plan to submit to the <a href="https://itch.io/jam/game-dev-network-dragon-jam">Dragon Jam</a>!
-<br>
-Theme: <b>Sea and Sky</b>
+# A Song of Sea and Sky. 
+<b>Sea and Sky</b>
 
 Developers:
-1. Petak
-1. Prince
-1. Rane
+1. Nudennie
+2. Petak
+3. Prince
+4. Rane
 
 To-do list:
  - Add enemies (mobs, ufo)
